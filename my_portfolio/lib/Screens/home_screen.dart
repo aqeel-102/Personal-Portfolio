@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../images/images.dart';
+import '../widgets/custom_widgets.dart';
 
 class PortfolioHomePage extends StatelessWidget {
   const PortfolioHomePage({super.key});
@@ -6,55 +8,151 @@ class PortfolioHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('John Doe - Flutter Developer'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      appBar: PreferredSize(
+        preferredSize: Size(MediaQuery.of(context).size.width * 0.8,
+            MediaQuery.of(context).size.height * 0.115),
+        child: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          flexibleSpace: Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.1,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 33, 31, 61), Colors.purple],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'AA',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            CustomTextButton(text: 'Home', onPressed: () {}),
+                            CustomTextButton(text: 'About', onPressed: () {}),
+                            CustomTextButton(text: 'Projects', onPressed: () {}),
+                            CustomTextButton(text: 'Contact', onPressed: () {}),
+                            CustomTextButton(text: 'Resume', onPressed: () {}),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: ScrollConfiguration(
         behavior: CustomScrollBehavior(),
-        child: const SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Center(
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundImage: AssetImage('assets/profile_picture.jpg'),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: const Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 110.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Hi',
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text(
+                                    'I am Aqeel',
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.grey ,fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 20),
+                                  Text(
+                                    'Flutter Developer',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 30),
+                                  Text(
+                                    'Mobile App Developer / Ios Developer  / Web Developer ',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 10),
+                                  TextButton(
+                                    onPressed: null,
+                                    child: Text(
+                                      'See My Work.',
+                                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                                    ),
+                                  ),
+                                Row(
+                                  children: [
+                                    TextButton(
+                                      onPressed: null,
+                                      child: Text('GitHub'),
+                                    ),
+                                    SizedBox(width: 10),
+                                    TextButton(
+                                      onPressed: null,
+                                      child: Text('LinkedIn'),
+                                    ),
+                                  ],
+                                ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: CircleAvatar(
+                              radius: 80,
+                              backgroundImage:
+                                  AssetImage(Images.profilePicture),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    'John Doe',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Center(
-                  child: Text(
-                    'Flutter Developer',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'About Me',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'I am a passionate Flutter developer with 3 years of experience in creating beautiful and functional cross-platform applications.',
-                ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Skills',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                Wrap(
+                const SizedBox(height: 10),
+                const Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
@@ -65,59 +163,30 @@ class PortfolioHomePage extends StatelessWidget {
                     Chip(label: Text('Git')),
                   ],
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Projects',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
-                ProjectCard(
+                const SizedBox(height: 10),
+                const ProjectCard(
                   title: 'E-commerce App',
-                  description: 'A fully functional e-commerce app with Firebase backend.',
+                  description:
+                      'A fully functional e-commerce app with Firebase backend.',
                 ),
-                ProjectCard(
+                const ProjectCard(
                   title: 'Weather App',
-                  description: 'Real-time weather app using OpenWeatherMap API.',
+                  description:
+                      'Real-time weather app using OpenWeatherMap API.',
                 ),
-                ProjectCard(
+                const ProjectCard(
                   title: 'Task Manager',
-                  description: 'A productivity app with local storage and notifications.',
+                  description:
+                      'A productivity app with local storage and notifications.',
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProjectCard extends StatelessWidget {
-  final String title;
-  final String description;
-
-  const ProjectCard({
-    Key? key,
-    required this.title,
-    required this.description,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(description),
-          ],
         ),
       ),
     );
