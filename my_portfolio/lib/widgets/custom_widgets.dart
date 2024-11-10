@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:my_portfolio/appbar_screens/drawer.dart';
 
 class CustomTextButton extends StatelessWidget {
   final String text;
@@ -8,13 +10,13 @@ class CustomTextButton extends StatelessWidget {
   final FontWeight fontWeight;
 
   const CustomTextButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.textColor,
     this.fontSize = 16.0,
     this.fontWeight = FontWeight.normal,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,3 +74,130 @@ class ProjectCard extends StatelessWidget {
     );
   }
 }
+
+
+
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool isMobile;
+  final double screenWidth;
+  final double contentPadding;
+  final Function(String) onNavigate;
+  final Function(String) onLaunchURL;
+
+  const CustomAppBar({
+    super.key,
+    required this.isMobile,
+    required this.screenWidth,
+    required this.contentPadding,
+    required this.onNavigate,
+    required this.onLaunchURL,
+  });
+
+  @override
+  Size get preferredSize => Size.fromHeight(isMobile ? 60 : 80);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: const SizedBox.shrink(),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      flexibleSpace: Container(
+        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: Center(
+          child: Container(
+            width: screenWidth * (isMobile ? 0.95 : 0.8),
+            height: isMobile ? 50 : 60,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF211F3D), Colors.purple],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.withOpacity(0.3),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: contentPadding * 0.5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () => onNavigate('/home'),
+                      child: Text(
+                        'AA',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          foreground: Paint()
+                            ..shader = const LinearGradient(
+                              colors: [Colors.white, Colors.purple],
+                            ).createShader(const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
+                        ),
+                      ).animate()
+                        .fadeIn(duration: const Duration(milliseconds: 800))
+                        .scale(delay: const Duration(milliseconds: 300)),
+                    ),
+                  ),
+                  if (!isMobile)
+                    Row(
+                      children: [
+                        CustomTextButton(
+                          text: 'Home', 
+                          onPressed: () => onNavigate('/home')
+                        ).animate()
+                          .fadeIn(delay: const Duration(milliseconds: 200)),
+                        const SizedBox(width: 20),
+                        CustomTextButton(
+                          text: 'About',
+                          onPressed: () => onNavigate('/about')
+                        ).animate()
+                          .fadeIn(delay: const Duration(milliseconds: 400)),
+                        const SizedBox(width: 20),
+                        CustomTextButton(
+                          text: 'Projects', 
+                          onPressed: () => onNavigate('/projects')
+                        ).animate()
+                          .fadeIn(delay: const Duration(milliseconds: 600)),
+                        const SizedBox(width: 20),
+                        CustomTextButton(
+                          text: 'Contact', 
+                          onPressed: () => onNavigate('/contact')
+                        ).animate()
+                          .fadeIn(delay: const Duration(milliseconds: 800)),
+                        const SizedBox(width: 20),
+                        CustomTextButton(
+                          text: 'Resume',
+                          onPressed: () => onLaunchURL('https://drive.google.com/file/d/12sKIQEJNvgieQCQ5C9La_6MS8uDFythk/view?usp=sharing'),
+                        ).animate()
+                          .fadeIn(delay: const Duration(milliseconds: 1000)),
+                      ],
+                    )
+                  else
+                    IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CustomDrawer(onNavigate: onNavigate)));
+                        },
+                    ).animate()
+                      .fadeIn()
+                      .scale(delay: const Duration(milliseconds: 300)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+

@@ -12,6 +12,11 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
+  font_awesome_flutter:
+  http:
+  url_launcher:
+  animated_text_kit:
+  flutter_animate:
 
 dev_dependencies:
   flutter_test:
