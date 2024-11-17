@@ -50,7 +50,7 @@ class AboutPage extends StatelessWidget {
     );
   }
 
-  Future<void> _launchURL(String url) async {
+  Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $url');
@@ -68,7 +68,7 @@ class AboutPage extends StatelessWidget {
         screenWidth: screenWidth,
         contentPadding: contentPadding,
         onNavigate: navigateToScreen,
-        onLaunchURL: _launchURL,
+        onLaunchURL: launchURL,
       ),
       body: SingleChildScrollView(
         child: Padding(

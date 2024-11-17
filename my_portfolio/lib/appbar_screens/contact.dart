@@ -121,8 +121,8 @@ class ContactPage extends StatelessWidget {
                     _buildContactMethod(
                       icon: Icons.email,
                       title: 'Email',
-                      content: 'your.email@example.com',
-                      onTap: () => launchURL('mailto:your.email@example.com'),
+                      content: 'aqeelahmad.dev@gmail.com',
+                      onTap: () => launchURL('mailto:aqeelahmad.dev@gmail.com'),
                     ).animate().fadeIn().slideX(),
 
                     const SizedBox(height: 30),
@@ -130,8 +130,8 @@ class ContactPage extends StatelessWidget {
                     _buildContactMethod(
                       icon: Icons.phone,
                       title: 'Phone',
-                      content: '+1 234 567 890',
-                      onTap: () => launchURL('tel:+1234567890'),
+                      content: '+92 323 4085182',
+                      onTap: () => launchURL('tel:+923234085182'),
                     ).animate().fadeIn().slideX(delay: const Duration(milliseconds: 200)),
 
                     const SizedBox(height: 30),
@@ -139,7 +139,7 @@ class ContactPage extends StatelessWidget {
                     _buildContactMethod(
                       icon: Icons.location_on,
                       title: 'Location',
-                      content: 'Your City, Country',
+                      content: 'Lahore, Pakistan',
                       onTap: () {},
                     ).animate().fadeIn().slideX(delay: const Duration(milliseconds: 400)),
                   ],
@@ -166,17 +166,17 @@ class ContactPage extends StatelessWidget {
                   _buildSocialButton(
                     'GitHub',
                     Icons.code,
-                    () => launchURL('https://github.com/yourusername'),
+                    () => launchURL('https://github.com/aqeel-102'),
                   ),
                   _buildSocialButton(
                     'LinkedIn',
                     Icons.work,
-                    () => launchURL('https://linkedin.com/in/yourusername'),
+                    () => launchURL('https://www.linkedin.com/in/aqeel-ahmad-534530311'),
                   ),
                   _buildSocialButton(
                     'Twitter',
                     Icons.chat_bubble,
-                    () => launchURL('https://twitter.com/yourusername'),
+                    () => launchURL('https://twitter.com/aqeel_dev'),
                   ),
                 ],
               ).animate().fadeIn(),

@@ -20,20 +20,28 @@ class CustomTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final responsiveFontSize = screenWidth < 800 ? 14.0 : fontSize;
+
+    return Expanded(
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth < 800 ? 8 : 16, 
+            vertical: 8
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor ?? Theme.of(context).primaryColor,
-          fontSize: fontSize,
-          fontWeight: fontWeight,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: textColor ?? Theme.of(context).primaryColor,
+            fontSize: responsiveFontSize,
+            fontWeight: fontWeight,
+          ),
         ),
       ),
     );
@@ -156,25 +164,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           onPressed: () => onNavigate('/home')
                         ).animate()
                           .fadeIn(delay: const Duration(milliseconds: 200)),
-                        const SizedBox(width: 20),
+                        SizedBox(width: screenWidth < 850 ? 10 : 20),
                         CustomTextButton(
                           text: 'About',
                           onPressed: () => onNavigate('/about')
                         ).animate()
                           .fadeIn(delay: const Duration(milliseconds: 400)),
-                        const SizedBox(width: 20),
+                        SizedBox(width: screenWidth < 850 ? 10 : 20),
                         CustomTextButton(
                           text: 'Projects', 
                           onPressed: () => onNavigate('/projects')
                         ).animate()
                           .fadeIn(delay: const Duration(milliseconds: 600)),
-                        const SizedBox(width: 20),
+                        SizedBox(width: screenWidth < 850 ? 10 : 20),
                         CustomTextButton(
                           text: 'Contact', 
                           onPressed: () => onNavigate('/contact')
                         ).animate()
                           .fadeIn(delay: const Duration(milliseconds: 800)),
-                        const SizedBox(width: 20),
+                        SizedBox(width: screenWidth < 850 ? 10 : 20),
                         CustomTextButton(
                           text: 'Resume',
                           onPressed: () => onLaunchURL('https://drive.google.com/file/d/12sKIQEJNvgieQCQ5C9La_6MS8uDFythk/view?usp=sharing'),
@@ -200,4 +208,3 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
-
