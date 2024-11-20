@@ -57,13 +57,13 @@ class ProjectsPage extends StatelessWidget {
     }
 
     final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final contentPadding = screenWidth * (isMobile ? 0.08 : 0.15);
+    final deviceType = _getDeviceType(screenWidth);
+    final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.08 : 0.15);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A1A),
       appBar: CustomAppBar(
-        isMobile: isMobile,
+        deviceType: deviceType,
         screenWidth: screenWidth,
         contentPadding: contentPadding,
         onNavigate: navigateToScreen,
@@ -72,7 +72,7 @@ class ProjectsPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20 : screenWidth * 0.1,
+            horizontal: deviceType == DeviceType.mobile ? 20 : screenWidth * 0.1,
             vertical: 30,
           ),
           child: Column(
@@ -81,7 +81,7 @@ class ProjectsPage extends StatelessWidget {
               Text(
                 "My Projects",
                 style: TextStyle(
-                  fontSize: isMobile ? 28 : 36,
+                  fontSize: deviceType == DeviceType.mobile ? 28 : 36,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -92,7 +92,7 @@ class ProjectsPage extends StatelessWidget {
               Text(
                 'Here are some of my recent projects',
                 style: TextStyle(
-                  fontSize: isMobile ? 16 : 18,
+                  fontSize: deviceType == DeviceType.mobile ? 16 : 18,
                   color: Colors.grey[400],
                   height: 1.6,
                 ),
@@ -104,10 +104,10 @@ class ProjectsPage extends StatelessWidget {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isMobile ? 1 : 2,
+                  crossAxisCount: deviceType == DeviceType.mobile ? 1 : 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
-                  childAspectRatio: isMobile ? 1.2 : 1.1,
+                  childAspectRatio: deviceType == DeviceType.mobile ? 1.2 : 1.1,
                 ),
                 itemCount: 4,
                 itemBuilder: (context, index) {
@@ -187,5 +187,13 @@ class ProjectsPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  DeviceType _getDeviceType(double screenWidth) {
+    if (screenWidth < 600) return DeviceType.mobile;
+    if (screenWidth < 800) return DeviceType.smallTablet;
+    if (screenWidth < 1000) return DeviceType.tablet;
+    if (screenWidth < 1200) return DeviceType.largeTablet;
+    return DeviceType.desktop;
   }
 }

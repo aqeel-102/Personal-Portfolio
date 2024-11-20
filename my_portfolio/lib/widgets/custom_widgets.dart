@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:my_portfolio/Screens/home_screen.dart';
 import 'package:my_portfolio/appbar_screens/drawer.dart';
 
 class CustomTextButton extends StatelessWidget {
@@ -87,7 +88,7 @@ class ProjectCard extends StatelessWidget {
 
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool isMobile;
+  final DeviceType deviceType;
   final double screenWidth;
   final double contentPadding;
   final Function(String) onNavigate;
@@ -95,12 +96,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   const CustomAppBar({
     super.key,
-    required this.isMobile,
+    required this.deviceType,
     required this.screenWidth,
     required this.contentPadding,
     required this.onNavigate,
     required this.onLaunchURL,
   });
+
+  bool get isMobile => deviceType == DeviceType.mobile;
 
   @override
   Size get preferredSize => Size.fromHeight(isMobile ? 60 : 80);

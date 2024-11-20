@@ -9,6 +9,14 @@ import '../Screens/home_screen.dart';
 class ContactPage extends StatelessWidget {
   const ContactPage({super.key});
 
+  DeviceType _getDeviceType(double screenWidth) {
+    if (screenWidth < 600) return DeviceType.mobile;
+    if (screenWidth < 800) return DeviceType.smallTablet;
+    if (screenWidth < 1000) return DeviceType.tablet;
+    if (screenWidth < 1200) return DeviceType.largeTablet;
+    return DeviceType.desktop;
+  }
+
   @override
   Widget build(BuildContext context) {
     void navigateToScreen(String route) {
@@ -57,13 +65,13 @@ class ContactPage extends StatelessWidget {
     }
 
     final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final contentPadding = screenWidth * (isMobile ? 0.08 : 0.15);
+    final deviceType = _getDeviceType(screenWidth);
+    final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.08 : 0.15);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A1A),
       appBar: CustomAppBar(
-        isMobile: isMobile,
+        deviceType: deviceType,
         screenWidth: screenWidth,
         contentPadding: contentPadding,
         onNavigate: navigateToScreen,
@@ -72,7 +80,7 @@ class ContactPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20 : screenWidth * 0.1,
+            horizontal: deviceType == DeviceType.mobile ? 20 : screenWidth * 0.1,
             vertical: 30,
           ),
           child: Column(
@@ -81,7 +89,7 @@ class ContactPage extends StatelessWidget {
               Text(
                 "Get in Touch",
                 style: TextStyle(
-                  fontSize: isMobile ? 32 : 48,
+                  fontSize: deviceType == DeviceType.mobile ? 32 : 48,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -92,7 +100,7 @@ class ContactPage extends StatelessWidget {
               Text(
                 "I'm always open to discussing new projects, opportunities, and collaborations.",
                 style: TextStyle(
-                  fontSize: isMobile ? 16 : 20,
+                  fontSize: deviceType == DeviceType.mobile ? 16 : 20,
                   color: Colors.grey[400],
                 ),
               ).animate().fadeIn(),
@@ -151,7 +159,7 @@ class ContactPage extends StatelessWidget {
               Text(
                 "Social Media",
                 style: TextStyle(
-                  fontSize: isMobile ? 24 : 32,
+                  fontSize: deviceType == DeviceType.mobile ? 24 : 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),

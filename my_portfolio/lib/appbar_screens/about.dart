@@ -22,9 +22,9 @@ class AboutPage extends StatelessWidget {
             case '/about':
               return const AboutPage();
             case '/projects':
-              return const ProjectsPage(); // Replace with actual projects page
+              return const ProjectsPage();
             case '/contact':
-              return const ContactPage(); // Replace with actual contact page
+              return const ContactPage();
             default:
               return const PortfolioHomePage();
           }
@@ -58,13 +58,13 @@ class AboutPage extends StatelessWidget {
   }
 
     final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final contentPadding = screenWidth * (isMobile ? 0.08 : 0.15);
+    final deviceType = _getDeviceType(screenWidth);
+    final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.08 : 0.15);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A1A),
       appBar: CustomAppBar(
-        isMobile: isMobile,
+        deviceType: deviceType,
         screenWidth: screenWidth,
         contentPadding: contentPadding,
         onNavigate: navigateToScreen,
@@ -73,7 +73,7 @@ class AboutPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20 : screenWidth * 0.1,
+            horizontal: deviceType == DeviceType.mobile ? 20 : screenWidth * 0.1,
             vertical: 30,
           ),
           child: Column(
@@ -101,7 +101,7 @@ class AboutPage extends StatelessWidget {
               Text(
                 "Hi, I'm Aqeel Ahmad",
                 style: TextStyle(
-                  fontSize: isMobile ? 28 : 36,
+                  fontSize: deviceType == DeviceType.mobile ? 28 : 36,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -112,7 +112,7 @@ class AboutPage extends StatelessWidget {
               Text(
                 'Flutter Developer & UI/UX Enthusiast',
                 style: TextStyle(
-                  fontSize: isMobile ? 20 : 24,
+                  fontSize: deviceType == DeviceType.mobile ? 20 : 24,
                   color: Colors.purple,
                   fontWeight: FontWeight.w500,
                 ),
@@ -124,7 +124,7 @@ class AboutPage extends StatelessWidget {
               Text(
                 'I am a passionate Flutter developer with a strong foundation in mobile and web application development. With several years of experience in the field, I specialize in creating beautiful, responsive, and user-friendly applications that deliver exceptional user experiences.',
                 style: TextStyle(
-                  fontSize: isMobile ? 16 : 18,
+                  fontSize: deviceType == DeviceType.mobile ? 16 : 18,
                   color: Colors.grey[400],
                   height: 1.6,
                 ),
@@ -136,7 +136,7 @@ class AboutPage extends StatelessWidget {
               Text(
                 'Skills & Expertise',
                 style: TextStyle(
-                  fontSize: isMobile ? 24 : 28,
+                  fontSize: deviceType == DeviceType.mobile ? 24 : 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -180,7 +180,7 @@ class AboutPage extends StatelessWidget {
               Text(
                 'Education',
                 style: TextStyle(
-                  fontSize: isMobile ? 24 : 28,
+                  fontSize: deviceType == DeviceType.mobile ? 24 : 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -200,7 +200,7 @@ class AboutPage extends StatelessWidget {
               Text(
                 'Get in Touch',
                 style: TextStyle(
-                  fontSize: isMobile ? 24 : 28,
+                  fontSize: deviceType == DeviceType.mobile ? 24 : 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -290,5 +290,13 @@ class AboutPage extends StatelessWidget {
         ),
       ],
     );
+  }
+  
+  DeviceType _getDeviceType(double screenWidth) {
+    if (screenWidth < 600) return DeviceType.mobile;
+    if (screenWidth < 800) return DeviceType.smallTablet;
+    if (screenWidth < 1000) return DeviceType.tablet;
+    if (screenWidth < 1200) return DeviceType.largeTablet;
+    return DeviceType.desktop;
   }
 }
