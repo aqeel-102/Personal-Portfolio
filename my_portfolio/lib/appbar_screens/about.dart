@@ -153,11 +153,17 @@ class AboutPage extends StatelessWidget {
                   'Firebase',
                   'REST APIs',
                   'Git',
+                  'GitHub',
                   'UI/UX Design',
                   'State Management',
                   'Clean Architecture',
                   'Mobile Development',
                   'Web Development',
+                  'Desktop Development',
+                  'C/C++',
+                  'Html',
+                  'CSS',
+                  'JavaScript',
                 ].map((skill) => Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
@@ -191,7 +197,7 @@ class AboutPage extends StatelessWidget {
               _buildEducationItem(
                 'Bachelor of Science in Computer Science',
                 'University Name',
-                '2018 - 2022',
+                '2022 - 2026',
               ).animate().fadeIn().slideX(),
               
               const SizedBox(height: 40),
@@ -211,7 +217,7 @@ class AboutPage extends StatelessWidget {
               _buildContactInfo(
                 Icons.email,
                 'Email:',
-                'your.email@example.com',
+                'aqeelahmad.dev@gmail.com',
               ).animate().fadeIn().slideX(),
               
               const SizedBox(height: 10),
@@ -219,7 +225,7 @@ class AboutPage extends StatelessWidget {
               _buildContactInfo(
                 Icons.location_on,
                 'Location:',
-                'Your City, Country',
+                'Lahore, Pakistan',
               ).animate().fadeIn().slideX(),
             ],
           ),

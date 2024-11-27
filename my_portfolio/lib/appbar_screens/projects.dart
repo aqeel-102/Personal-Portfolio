@@ -100,87 +100,51 @@ class ProjectsPage extends StatelessWidget {
               
               const SizedBox(height: 40),
               
-              GridView.builder(
+              GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: deviceType == DeviceType.mobile ? 1 : 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: deviceType == DeviceType.mobile ? 1.2 : 1.1,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.purple.withOpacity(0.2),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                          child: Image.asset(
-                            'assets/project${index + 1}.jpg',
-                            height: 200,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Project ${index + 1}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Description of project ${index + 1}. This is a brief overview of what the project does and the technologies used.',
-                                style: TextStyle(
-                                  color: Colors.grey[400],
-                                  fontSize: 14,
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              Wrap(
-                                spacing: 8,
-                                children: [
-                                  'Flutter',
-                                  'Firebase',
-                                  'REST API',
-                                ].map((tech) => Chip(
-                                  label: Text(
-                                    tech,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  backgroundColor: Colors.purple.withOpacity(0.3),
-                                )).toList(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ).animate().fadeIn(delay: Duration(milliseconds: 200 * index));
-                },
+                crossAxisCount: deviceType == DeviceType.mobile ? 1 : 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio: _getResponsiveAspectRatio(deviceType),
+                children: [
+                  _buildProjectCard(
+                    context,
+                    'Project 1',
+                    'Description of project 1. This is a brief overview of what the project does and the technologies used.',
+                    'assets/poerfolioimg.jpg',
+                    ['Flutter', 'Firebase', 'REST API'],
+                    0,
+                    deviceType,
+                  ),
+                  _buildProjectCard(
+                    context,
+                    'Project 2',
+                    'Description of project 2. This is a brief overview of what the project does and the technologies used.',
+                    'assets/poerfolioimg.jpg',
+                    ['React', 'Node.js', 'MongoDB'],
+                    1,
+                    deviceType,
+                  ),
+                  _buildProjectCard(
+                    context,
+                    'Project 3',
+                    'Description of project 3. This is a brief overview of what the project does and the technologies used.',
+                    'assets/poerfolioimg.jpg',
+                    ['Vue.js', 'Express', 'PostgreSQL'],
+                    2,
+                    deviceType,
+                  ),
+                  _buildProjectCard(
+                    context,
+                    'Project 4',
+                    'Description of project 4. This is a brief overview of what the project does and the technologies used.',
+                    'assets/poerfolioimg.jpg',
+                    ['Flutter', 'GraphQL', 'AWS'],
+                    3,
+                    deviceType,
+                  ),
+                ],
               ),
             ],
           ),
@@ -189,11 +153,133 @@ class ProjectsPage extends StatelessWidget {
     );
   }
 
+  Widget _buildProjectCard(BuildContext context, String title, String description, String imagePath, List<String> technologies, int index, DeviceType deviceType) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.purple.withOpacity(0.2),
+            blurRadius: 10,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+            child: Image.asset(
+              imagePath,
+              height: _getResponsiveImageHeight(deviceType) * 2, // Doubled the height
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: _getResponsiveFontSize(deviceType, 20),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: _getResponsiveFontSize(deviceType, 14),
+                    ),
+                    maxLines: deviceType == DeviceType.smallTablet ? 2 : 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: technologies.map((tech) => Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Chip(
+                          label: Text(
+                            tech,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: _getResponsiveFontSize(deviceType, 12),
+                            ),
+                          ),
+                          backgroundColor: Colors.purple.withOpacity(0.3),
+                        ),
+                      )).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ).animate().fadeIn(delay: Duration(milliseconds: 200 * index));
+  }
+
   DeviceType _getDeviceType(double screenWidth) {
     if (screenWidth < 600) return DeviceType.mobile;
     if (screenWidth < 800) return DeviceType.smallTablet;
     if (screenWidth < 1000) return DeviceType.tablet;
     if (screenWidth < 1200) return DeviceType.largeTablet;
     return DeviceType.desktop;
+  }
+
+  double _getResponsiveAspectRatio(DeviceType deviceType) {
+    switch (deviceType) {
+      case DeviceType.mobile:
+        return 0.8;
+      case DeviceType.smallTablet:
+        return 0.75;
+      case DeviceType.tablet:
+        return 0.9;
+      case DeviceType.largeTablet:
+        return 0.95;
+      case DeviceType.desktop:
+        return 1.0;
+    }
+  }
+
+  double _getResponsiveImageHeight(DeviceType deviceType) {
+    switch (deviceType) {
+      case DeviceType.mobile:
+        return 180;
+      case DeviceType.smallTablet:
+        return 140;
+      case DeviceType.tablet:
+        return 140;
+      case DeviceType.largeTablet:
+        return 160;
+      case DeviceType.desktop:
+        return 180;
+    }
+  }
+
+  double _getResponsiveFontSize(DeviceType deviceType, double baseSize) {
+    switch (deviceType) {
+      case DeviceType.mobile:
+        return baseSize;
+      case DeviceType.smallTablet:
+        return baseSize * 0.85;
+      case DeviceType.tablet:
+        return baseSize * 0.85;
+      case DeviceType.largeTablet:
+        return baseSize * 0.95;
+      case DeviceType.desktop:
+        return baseSize;
+    }
   }
 }

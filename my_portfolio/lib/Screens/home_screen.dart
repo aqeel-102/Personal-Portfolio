@@ -354,7 +354,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                         crossAxisCount: deviceType == DeviceType.mobile ? 1 : 
                                         deviceType == DeviceType.smallTablet ? 2 : 
                                         deviceType == DeviceType.tablet ? 2 : 
-                                        deviceType == DeviceType.largeTablet ? 3 : 3,
+                                        deviceType == DeviceType.largeTablet ? 2 : 2,
                         crossAxisSpacing: _getResponsiveSize(screenWidth, deviceType,
                           mobile: 30,
                           smallTablet: 32,
@@ -391,7 +391,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             'Weather App',
                             'A weather app built with Flutter with real-time weather data.',
                             ['Flutter','State Management'],
-                            'assets/project2.jpg',
+                            'assets/poerfolioimg.jpg',
                             screenWidth,
                             deviceType,
                           ),
@@ -400,7 +400,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             'Money Tracker',
                             'A money tracker app built with Flutter with laravel backend.',
                             ['Flutter', 'State Management', 'Laravel'],
-                            'assets/project3.jpg',
+                            'assets/poerfolioimg.jpg',
                             screenWidth,
                             deviceType,
                           ),
@@ -409,7 +409,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             'Portfolio Website',
                             'A portfolio website built with Flutter.',
                             ['Flutter', 'State Management'],
-                            'assets/project4.jpg',
+                            'assets/poerfolioimg.jpg',
                             screenWidth,
                             deviceType,
                           ),
@@ -488,24 +488,17 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
     double subtitleSize = _getResponsiveSize(screenWidth, deviceType,
       mobile: 16,
-      smallTablet: 16.5,
-      tablet: 17,
-      largeTablet: 17.5,
+      smallTablet: 11.5,
+      tablet: 13,
+      largeTablet: 14,
       desktop: 18
     );
     double descriptionSize = _getResponsiveSize(screenWidth, deviceType,
       mobile: 14,
-      smallTablet: 14.5,
-      tablet: 15,
-      largeTablet: 15.5,
-      desktop: 16
-    );
-    double techSize = _getResponsiveSize(screenWidth, deviceType,
-      mobile: 12,
-      smallTablet: 12.5,
+      smallTablet: 12,
       tablet: 13,
-      largeTablet: 13.5,
-      desktop: 14
+      largeTablet: 14,
+      desktop: 16
     );
     
     double imageHeight = _getResponsiveSize(screenWidth, deviceType,
@@ -538,7 +531,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
               // Image container
               Expanded(
                 flex: 1,
-                child: Container(
+                child: SizedBox(
                   height: imageHeight,
                   child: Image.asset(
                     imagePath,
@@ -548,15 +541,23 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
               ),
               // Details container
               Expanded(
-                flex: 1,
                 child: Container(
-                  padding: EdgeInsets.all(_getResponsiveSize(screenWidth, deviceType,
-                    mobile: 16,
-                    smallTablet: 18,
-                    tablet: 20,
-                    largeTablet: 22,
-                    desktop: 24
-                  )),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _getResponsiveSize(screenWidth, deviceType,
+                      mobile: 16,
+                      smallTablet: 14,
+                      tablet: 15,
+                      largeTablet: 16,
+                      desktop: 24
+                    ),
+                    vertical: _getResponsiveSize(screenWidth, deviceType,
+                      mobile: 16,
+                      smallTablet: 14,
+                      tablet: 15,
+                      largeTablet: 16,
+                      desktop: 24
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -571,10 +572,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                       ),
                       SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
                         mobile: 6,
-                        smallTablet: 7,
-                        tablet: 8,
-                        largeTablet: 9,
-                        desktop: 10
+                        smallTablet: 4,
+                        tablet: 5,
+                        largeTablet: 6,
+                        desktop: 8
                       )),
                       Text(
                         subtitle,
@@ -587,9 +588,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                       ),
                       SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
                         mobile: 12,
-                        smallTablet: 13,
-                        tablet: 14,
-                        largeTablet: 15,
+                        smallTablet: 8,
+                        tablet: 8,
+                        largeTablet: 9,
                         desktop: 16
                       )),
                       Expanded(
@@ -606,18 +607,18 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             ),
                             SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
                               mobile: 16,
-                              smallTablet: 17,
-                              tablet: 18,
-                              largeTablet: 19,
-                              desktop: 20
+                              smallTablet: 10,
+                              tablet: 11,
+                              largeTablet: 12,
+                              desktop: 14
                             )),
                             Expanded(
                               child: Wrap(
                                 spacing: _getResponsiveSize(screenWidth, deviceType,
                                   mobile: 6,
-                                  smallTablet: 7,
-                                  tablet: 8,
-                                  largeTablet: 9,
+                                  smallTablet: 6,
+                                  tablet: 7,
+                                  largeTablet: 8,
                                   desktop: 10
                                 ),
                                 runSpacing: _getResponsiveSize(screenWidth, deviceType,
@@ -631,9 +632,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                                   padding: EdgeInsets.symmetric(
                                     horizontal: _getResponsiveSize(screenWidth, deviceType,
                                       mobile: 10,
-                                      smallTablet: 11,
-                                      tablet: 12,
-                                      largeTablet: 13,
+                                      smallTablet: 9,
+                                      tablet: 10,
+                                      largeTablet: 11,
                                       desktop: 14
                                     ),
                                     vertical: _getResponsiveSize(screenWidth, deviceType,
@@ -656,7 +657,13 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                                     tech,
                                     style: TextStyle(
                                       color: Colors.purple[100],
-                                      fontSize: techSize * 0.9,
+                                      fontSize: _getResponsiveSize(screenWidth, deviceType,
+                                        mobile: 12,
+                                        smallTablet: 8,
+                                        tablet: 12,
+                                        largeTablet: 12,
+                                        desktop: 16
+                                      ),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
