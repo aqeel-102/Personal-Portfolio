@@ -17,6 +17,9 @@ dependencies:
   url_launcher:
   animated_text_kit:
   flutter_animate:
+  google_fonts:
+  cached_network_image:
+  visibility_detector:
 
 dev_dependencies:
   flutter_test:

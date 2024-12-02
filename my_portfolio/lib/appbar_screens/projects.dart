@@ -57,7 +57,7 @@ class ProjectsPage extends StatelessWidget {
     }
 
     final screenWidth = MediaQuery.of(context).size.width;
-    final deviceType = _getDeviceType(screenWidth);
+    final deviceType = getDeviceType(screenWidth);
     final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.08 : 0.15);
 
     return Scaffold(
@@ -72,8 +72,20 @@ class ProjectsPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: deviceType == DeviceType.mobile ? 20 : screenWidth * 0.1,
-            vertical: 30,
+            horizontal: getResponsiveSize(screenWidth, deviceType,
+              mobile: 16,
+              smallTablet: screenWidth * 0.06,
+              tablet: screenWidth * 0.08,
+              largeTablet: screenWidth * 0.1,
+              desktop: screenWidth * 0.15
+            ),
+            vertical: getResponsiveSize(screenWidth, deviceType,
+              mobile: 16,
+              smallTablet: 20,
+              tablet: 24,
+              largeTablet: 28,
+              desktop: 32
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +99,7 @@ class ProjectsPage extends StatelessWidget {
                 ),
               ).animate().fadeIn().slideX(),
               
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
               
               Text(
                 'Here are some of my recent projects',
@@ -98,51 +110,78 @@ class ProjectsPage extends StatelessWidget {
                 ),
               ).animate().fadeIn(),
               
-              const SizedBox(height: 40),
+              const SizedBox(height: 24),
               
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: deviceType == DeviceType.mobile ? 1 : 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio: _getResponsiveAspectRatio(deviceType),
+                crossAxisCount: getGridCrossAxisCount(deviceType),
+                crossAxisSpacing: getResponsiveSize(screenWidth, deviceType,
+                  mobile: 16,
+                  smallTablet: 20,
+                  tablet: 24,
+                  largeTablet: 30,
+                  desktop: 40
+                ),
+                mainAxisSpacing: getResponsiveSize(screenWidth, deviceType,
+                  mobile: 16,
+                  smallTablet: 20,
+                  tablet: 24,
+                  largeTablet: 30,
+                  desktop: 40
+                ),
+                childAspectRatio: getResponsiveSize(screenWidth, deviceType,
+                  mobile: 1.0,
+                  smallTablet: 1.05,
+                  tablet: 1.1,
+                  largeTablet: 1.15,
+                  desktop: 1.2
+                ),
+                padding: EdgeInsets.zero,
                 children: [
-                  _buildProjectCard(
+                  buildProjectCard(
                     context,
                     'Project 1',
-                    'Description of project 1. This is a brief overview of what the project does and the technologies used.',
+                    'Simple Tools',
+                    'A simple tools app built with Flutter and Firebase.',
                     'assets/poerfolioimg.jpg',
-                    ['Flutter', 'Firebase', 'REST API'],
+                    ['Flutter', 'Firebase', 'State Management'],
                     0,
                     deviceType,
+                    screenWidth,
                   ),
-                  _buildProjectCard(
+                  buildProjectCard(
                     context,
                     'Project 2',
-                    'Description of project 2. This is a brief overview of what the project does and the technologies used.',
+                    'Weather App',
+                    'A weather app built with Flutter with real-time weather data.',
                     'assets/poerfolioimg.jpg',
-                    ['React', 'Node.js', 'MongoDB'],
+                    ['Flutter', 'State Management'],
                     1,
                     deviceType,
+                    screenWidth,
                   ),
-                  _buildProjectCard(
+                  buildProjectCard(
                     context,
                     'Project 3',
-                    'Description of project 3. This is a brief overview of what the project does and the technologies used.',
+                    'Money Tracker',
+                    'A money tracker app built with Flutter with laravel backend.',
                     'assets/poerfolioimg.jpg',
-                    ['Vue.js', 'Express', 'PostgreSQL'],
+                    ['Flutter', 'State Management', 'Laravel'],
                     2,
                     deviceType,
+                    screenWidth,
                   ),
-                  _buildProjectCard(
+                  buildProjectCard(
                     context,
                     'Project 4',
-                    'Description of project 4. This is a brief overview of what the project does and the technologies used.',
+                    'Portfolio Website',
+                    'A portfolio website built with Flutter.',
                     'assets/poerfolioimg.jpg',
-                    ['Flutter', 'GraphQL', 'AWS'],
+                    ['Flutter', 'State Management'],
                     3,
                     deviceType,
+                    screenWidth,
                   ),
                 ],
               ),
@@ -153,133 +192,179 @@ class ProjectsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildProjectCard(BuildContext context, String title, String description, String imagePath, List<String> technologies, int index, DeviceType deviceType) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[900],
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.purple.withOpacity(0.2),
-            blurRadius: 10,
-            spreadRadius: 2,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-            child: Image.asset(
-              imagePath,
-              height: _getResponsiveImageHeight(deviceType) * 2, // Doubled the height
-              width: double.infinity,
-              fit: BoxFit.cover,
+  Widget buildProjectCard(BuildContext context, String title, String subtitle, String description, String imagePath, List<String> technologies, int index, DeviceType deviceType, double screenWidth) {
+    double titleSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
+      smallTablet: 13,
+      tablet: 14,
+      largeTablet: 15,
+      desktop: 16
+    );
+    double subtitleSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 16,
+      smallTablet: 17,
+      tablet: 18,
+      largeTablet: 19,
+      desktop: 20
+    );
+    double descriptionSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
+      smallTablet: 12,
+      tablet: 13,
+      largeTablet: 13,
+      desktop: 14
+    );
+    
+    double cardPadding = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
+      smallTablet: 14,
+      tablet: 16,
+      largeTablet: 18,
+      desktop: 20
+    );
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Container(
+        margin: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.purple.withOpacity(0.05),
+          border: Border.all(color: Colors.purple.withOpacity(0.2)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.purple.withOpacity(0.1),
+              blurRadius: 15,
+              spreadRadius: 2,
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: _getResponsiveFontSize(deviceType, 20),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: TextStyle(
-                      color: Colors.grey[400],
-                      fontSize: _getResponsiveFontSize(deviceType, 14),
-                    ),
-                    maxLines: deviceType == DeviceType.smallTablet ? 2 : 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: technologies.map((tech) => Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: Chip(
-                          label: Text(
-                            tech,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: _getResponsiveFontSize(deviceType, 12),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(cardPadding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title.toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.purple[200],
+                          fontSize: titleSize,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: subtitleSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        description,
+                        style: TextStyle(
+                          color: Colors.grey[300],
+                          fontSize: descriptionSize,
+                          height: 1.3,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: technologies.map((tech) => Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: cardPadding * 0.4,
+                            vertical: cardPadding * 0.2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.purple.withOpacity(0.3),
                             ),
                           ),
-                          backgroundColor: Colors.purple.withOpacity(0.3),
-                        ),
-                      )).toList(),
-                    ),
+                          child: Text(
+                            tech,
+                            style: TextStyle(
+                              color: Colors.purple[100],
+                              fontSize: descriptionSize * 0.9,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )).toList(),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    ).animate().fadeIn(delay: Duration(milliseconds: 200 * index));
+        ),
+      ).animate()
+        .fadeIn(duration: const Duration(milliseconds: 600))
+        .scale(delay: const Duration(milliseconds: 200)),
+    );
   }
 
-  DeviceType _getDeviceType(double screenWidth) {
-    if (screenWidth < 600) return DeviceType.mobile;
-    if (screenWidth < 800) return DeviceType.smallTablet;
-    if (screenWidth < 1000) return DeviceType.tablet;
-    if (screenWidth < 1200) return DeviceType.largeTablet;
-    return DeviceType.desktop;
-  }
-
-  double _getResponsiveAspectRatio(DeviceType deviceType) {
+  int getGridCrossAxisCount(DeviceType deviceType) {
     switch (deviceType) {
       case DeviceType.mobile:
-        return 0.8;
+        return 1;
       case DeviceType.smallTablet:
-        return 0.75;
+        return 2;
       case DeviceType.tablet:
-        return 0.9;
+        return 2;
       case DeviceType.largeTablet:
-        return 0.95;
+        return 2;
       case DeviceType.desktop:
-        return 1.0;
+        return 2;
     }
   }
+}
 
-  double _getResponsiveImageHeight(DeviceType deviceType) {
-    switch (deviceType) {
-      case DeviceType.mobile:
-        return 180;
-      case DeviceType.smallTablet:
-        return 140;
-      case DeviceType.tablet:
-        return 140;
-      case DeviceType.largeTablet:
-        return 160;
-      case DeviceType.desktop:
-        return 180;
-    }
-  }
+DeviceType getDeviceType(double screenWidth) {
+  if (screenWidth < 600) return DeviceType.mobile;
+  if (screenWidth < 900) return DeviceType.smallTablet;
+  if (screenWidth < 1200) return DeviceType.tablet;
+  if (screenWidth < 1536) return DeviceType.largeTablet;
+  return DeviceType.desktop;
+}
 
-  double _getResponsiveFontSize(DeviceType deviceType, double baseSize) {
-    switch (deviceType) {
-      case DeviceType.mobile:
-        return baseSize;
-      case DeviceType.smallTablet:
-        return baseSize * 0.85;
-      case DeviceType.tablet:
-        return baseSize * 0.85;
-      case DeviceType.largeTablet:
-        return baseSize * 0.95;
-      case DeviceType.desktop:
-        return baseSize;
-    }
+double getResponsiveSize(double screenWidth, DeviceType deviceType, {
+  required double mobile,
+  required double smallTablet,
+  required double tablet,
+  required double largeTablet,
+  required double desktop,
+}) {
+  switch (deviceType) {
+    case DeviceType.mobile:
+      return mobile;
+    case DeviceType.smallTablet:
+      return smallTablet;
+    case DeviceType.tablet:
+      return tablet;
+    case DeviceType.largeTablet:
+      return largeTablet;
+    case DeviceType.desktop:
+      return desktop;
   }
 }

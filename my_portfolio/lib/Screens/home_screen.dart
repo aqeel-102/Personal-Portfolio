@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:math' show cos, pi, sin;
+import '../widgets/contact_form.dart';
 
 class PortfolioHomePage extends StatefulWidget {
   const PortfolioHomePage({super.key});
@@ -62,7 +63,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
 
   Widget _buildOrbitingSkills(double radius, DeviceType deviceType, double screenWidth) {
     // Responsive sizing
-    double containerSize = _getResponsiveSize(screenWidth, deviceType,
+    double containerSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 150,
       smallTablet: 175,
       tablet: 200, 
@@ -70,7 +71,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
       desktop: 250
     );
     
-    double orbitRadius = _getResponsiveSize(screenWidth, deviceType,
+    double orbitRadius = getResponsiveSize(screenWidth, deviceType,
       mobile: 120,
       smallTablet: 135,
       tablet: 150,
@@ -78,7 +79,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
       desktop: radius
     );
     
-    double fontSize = _getResponsiveSize(screenWidth, deviceType,
+    double fontSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 10,
       smallTablet: 10.5,
       tablet: 11,
@@ -86,7 +87,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
       desktop: 12
     );
     
-    double skillPadding = _getResponsiveSize(screenWidth, deviceType,
+    double skillPadding = getResponsiveSize(screenWidth, deviceType,
       mobile: 6,
       smallTablet: 8,
       tablet: 10,
@@ -164,27 +165,6 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
   }
 
-  double _getResponsiveSize(double screenWidth, DeviceType deviceType, {
-    required double mobile,
-    required double smallTablet,
-    required double tablet,
-    required double largeTablet,
-    required double desktop,
-  }) {
-    switch (deviceType) {
-      case DeviceType.mobile:
-        return mobile;
-      case DeviceType.smallTablet:
-        return smallTablet;
-      case DeviceType.tablet:
-        return tablet;
-      case DeviceType.largeTablet:
-        return largeTablet;
-      case DeviceType.desktop:
-        return desktop;
-    }
-  }
-
   Future<void> _launchURL(String url) async {
     final uri = Uri.parse(url);
     try {
@@ -234,19 +214,11 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
   }
 
-  DeviceType _getDeviceType(double screenWidth) {
-    if (screenWidth < 600) return DeviceType.mobile;
-    if (screenWidth < 800) return DeviceType.smallTablet;
-    if (screenWidth < 1000) return DeviceType.tablet;
-    if (screenWidth < 1200) return DeviceType.largeTablet;
-    return DeviceType.desktop;
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final deviceType = _getDeviceType(screenWidth);
+    final deviceType = getDeviceType(screenWidth);
     final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.08 : 
                                           deviceType == DeviceType.smallTablet ? 0.09 : 
                                           deviceType == DeviceType.tablet ? 0.1 : 
@@ -273,7 +245,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: contentPadding,
-                vertical: _getResponsiveSize(screenWidth, deviceType,
+                vertical: getResponsiveSize(screenWidth, deviceType,
                   mobile: 30,
                   smallTablet: 35,
                   tablet: 40,
@@ -288,7 +260,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
+                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
                         mobile: 60,
                         smallTablet: 70,
                         tablet: 80,
@@ -296,7 +268,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                         desktop: 150
                       )),
                       
-                      if (deviceType != DeviceType.desktop) ...[
+                      if (deviceType == DeviceType.mobile || deviceType == DeviceType.smallTablet || deviceType == DeviceType.tablet) ...[
                         Center(
                           child: _buildOrbitingSkills(150, deviceType, screenWidth),
                         ),
@@ -321,19 +293,19 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                           ],
                         ),
                       
-                      SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
+                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
                         mobile: 80,
                         smallTablet: 90,
                         tablet: 100,
                         largeTablet: 110,
                         desktop: 120
                       )),
-                      
+                      const SizedBox(height: 20),
                       // Projects Section
                       Text(
                         'Featured Projects',
                         style: TextStyle(
-                          fontSize: _getResponsiveSize(screenWidth, deviceType,
+                          fontSize: getResponsiveSize(screenWidth, deviceType,
                             mobile: 24,
                             smallTablet: 26,
                             tablet: 28,
@@ -351,72 +323,78 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                       GridView.count(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: deviceType == DeviceType.mobile ? 1 : 
-                                        deviceType == DeviceType.smallTablet ? 2 : 
-                                        deviceType == DeviceType.tablet ? 2 : 
-                                        deviceType == DeviceType.largeTablet ? 2 : 2,
-                        crossAxisSpacing: _getResponsiveSize(screenWidth, deviceType,
-                          mobile: 30,
-                          smallTablet: 32,
-                          tablet: 35,
-                          largeTablet: 38,
+                        crossAxisCount: getGridCrossAxisCount(deviceType),
+                        crossAxisSpacing: getResponsiveSize(screenWidth, deviceType,
+                          mobile: 16,
+                          smallTablet: 20,
+                          tablet: 24,
+                          largeTablet: 30,
                           desktop: 40
                         ),
-                        mainAxisSpacing: _getResponsiveSize(screenWidth, deviceType,
-                          mobile: 20,
-                          smallTablet: 22,
-                          tablet: 25,
-                          largeTablet: 28,
-                          desktop: 30
+                        mainAxisSpacing: getResponsiveSize(screenWidth, deviceType,
+                          mobile: 16,
+                          smallTablet: 20,
+                          tablet: 24,
+                          largeTablet: 30,
+                          desktop: 40
                         ),
-                        childAspectRatio: _getResponsiveSize(screenWidth, deviceType,
-                          mobile: 0.75,
-                          smallTablet: 0.77,
-                          tablet: 0.8,
-                          largeTablet: 0.82,
-                          desktop: 0.85
+                        childAspectRatio: getResponsiveSize(screenWidth, deviceType,
+                          mobile: 1.0,
+                          smallTablet: 1.05,
+                          tablet: 1.1,
+                          largeTablet: 1.15,
+                          desktop: 1.2
                         ),
+                        padding: EdgeInsets.zero,
                         children: [
-                          _buildProjectCard(
+                          buildProjectCard(
+                            context,
                             'Project 1',
                             'Simple Tools',
-                            'A simple tools app built with Flutter and Firebase.',
-                            ['Flutter', 'Firebase', 'State Management'],
+                            'A simple tools app built with Flutter and Api integration.',
                             'assets/poerfolioimg.jpg',
-                            screenWidth,
+                            ['Flutter', 'Api Integration', 'State Management','UI/UX'],
+                            0,
                             deviceType,
+                            screenWidth,
                           ),
-                          _buildProjectCard(
+                          buildProjectCard(
+                            context,
                             'Project 2',
                             'Weather App',
                             'A weather app built with Flutter with real-time weather data.',
-                            ['Flutter','State Management'],
                             'assets/poerfolioimg.jpg',
-                            screenWidth,
+                            ['Flutter', 'Api Integration', 'State Management'],
+                            1,
                             deviceType,
+                            screenWidth,
                           ),
-                          _buildProjectCard(
+                          buildProjectCard(
+                            context,
                             'Project 3',
                             'Money Tracker',
                             'A money tracker app built with Flutter with laravel backend.',
-                            ['Flutter', 'State Management', 'Laravel'],
                             'assets/poerfolioimg.jpg',
-                            screenWidth,
+                            ['Flutter','Rest Api', 'State Management', 'Laravel', 'Authentication'],
+                            2,
                             deviceType,
+                            screenWidth,
                           ),
-                          _buildProjectCard(
+                          buildProjectCard(
+                            context,
                             'Project 4',
                             'Portfolio Website',
                             'A portfolio website built with Flutter.',
-                            ['Flutter', 'State Management'],
                             'assets/poerfolioimg.jpg',
-                            screenWidth,
+                            ['Flutter', 'State Management', 'UI/UX' , 'Web Development'],
+                            3,
                             deviceType,
+                            screenWidth,
                           ),
                         ],
                       ),
                       
-                      SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
+                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
                         mobile: 80,
                         smallTablet: 90,
                         tablet: 100,
@@ -431,7 +409,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             Text(
                               'Let\'s Connect',
                               style: TextStyle(
-                                fontSize: _getResponsiveSize(screenWidth, deviceType,
+                                fontSize: getResponsiveSize(screenWidth, deviceType,
                                   mobile: 24,
                                   smallTablet: 26,
                                   tablet: 28,
@@ -453,7 +431,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                                 'I\'m always open to discussing new projects, creative ideas or opportunities to be part of your visions.',
                                 style: TextStyle(
                                   color: Colors.grey[400],
-                                  fontSize: _getResponsiveSize(screenWidth, deviceType,
+                                  fontSize: getResponsiveSize(screenWidth, deviceType,
                                     mobile: 14,
                                     smallTablet: 15,
                                     tablet: 16,
@@ -467,6 +445,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                           ],
                         ).animate().fadeIn().scale(),
                       ),
+                      const ContactForm(),
                     ],
                   ),
                 ),
@@ -478,40 +457,41 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
   }
 
-  Widget _buildProjectCard(String title, String subtitle, String description, List<String> technologies, String imagePath, double screenWidth, DeviceType deviceType) {
-    double titleSize = _getResponsiveSize(screenWidth, deviceType,
-      mobile: 14,
-      smallTablet: 14.5,
-      tablet: 15,
-      largeTablet: 15.5,
+  Widget buildProjectCard(BuildContext context, String title, String subtitle, String description, String imagePath, List<String> technologies, int index, DeviceType deviceType, double screenWidth) {
+    double titleSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
+      smallTablet: 13,
+      tablet: 14,
+      largeTablet: 15,
       desktop: 16
     );
-    double subtitleSize = _getResponsiveSize(screenWidth, deviceType,
+    double subtitleSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 16,
-      smallTablet: 11.5,
-      tablet: 13,
-      largeTablet: 14,
-      desktop: 18
+      smallTablet: 17,
+      tablet: 18,
+      largeTablet: 19,
+      desktop: 20
     );
-    double descriptionSize = _getResponsiveSize(screenWidth, deviceType,
-      mobile: 14,
+    double descriptionSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
       smallTablet: 12,
       tablet: 13,
-      largeTablet: 14,
-      desktop: 16
+      largeTablet: 13,
+      desktop: 14
     );
     
-    double imageHeight = _getResponsiveSize(screenWidth, deviceType,
-      mobile: 200,
-      smallTablet: 210,
-      tablet: 220,
-      largeTablet: 260,
-      desktop: 300
+    double cardPadding = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
+      smallTablet: 14,
+      tablet: 16,
+      largeTablet: 18,
+      desktop: 20
     );
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Container(
+        margin: EdgeInsets.zero,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.purple.withOpacity(0.05),
@@ -527,37 +507,19 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image container
-              Expanded(
-                flex: 1,
-                child: SizedBox(
-                  height: imageHeight,
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
-                  ),
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.asset(
+                  imagePath,
+                  fit: BoxFit.cover,
                 ),
               ),
-              // Details container
+              
               Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: _getResponsiveSize(screenWidth, deviceType,
-                      mobile: 16,
-                      smallTablet: 14,
-                      tablet: 15,
-                      largeTablet: 16,
-                      desktop: 24
-                    ),
-                    vertical: _getResponsiveSize(screenWidth, deviceType,
-                      mobile: 16,
-                      smallTablet: 14,
-                      tablet: 15,
-                      largeTablet: 16,
-                      desktop: 24
-                    ),
-                  ),
+                child: Padding(
+                  padding: EdgeInsets.all(cardPadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -570,108 +532,49 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
-                        mobile: 6,
-                        smallTablet: 4,
-                        tablet: 5,
-                        largeTablet: 6,
-                        desktop: 8
-                      )),
+                      const SizedBox(height: 4),
                       Text(
                         subtitle,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: subtitleSize,
                           fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
                         ),
                       ),
-                      SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
-                        mobile: 12,
-                        smallTablet: 8,
-                        tablet: 8,
-                        largeTablet: 9,
-                        desktop: 16
-                      )),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              description,
-                              style: TextStyle(
-                                color: Colors.grey[300],
-                                fontSize: descriptionSize,
-                                height: 1.5,
-                              ),
-                            ),
-                            SizedBox(height: _getResponsiveSize(screenWidth, deviceType,
-                              mobile: 16,
-                              smallTablet: 10,
-                              tablet: 11,
-                              largeTablet: 12,
-                              desktop: 14
-                            )),
-                            Expanded(
-                              child: Wrap(
-                                spacing: _getResponsiveSize(screenWidth, deviceType,
-                                  mobile: 6,
-                                  smallTablet: 6,
-                                  tablet: 7,
-                                  largeTablet: 8,
-                                  desktop: 10
-                                ),
-                                runSpacing: _getResponsiveSize(screenWidth, deviceType,
-                                  mobile: 6,
-                                  smallTablet: 7,
-                                  tablet: 8,
-                                  largeTablet: 9,
-                                  desktop: 10
-                                ),
-                                children: technologies.map((tech) => Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: _getResponsiveSize(screenWidth, deviceType,
-                                      mobile: 10,
-                                      smallTablet: 9,
-                                      tablet: 10,
-                                      largeTablet: 11,
-                                      desktop: 14
-                                    ),
-                                    vertical: _getResponsiveSize(screenWidth, deviceType,
-                                      mobile: 5,
-                                      smallTablet: 5.5,
-                                      tablet: 6,
-                                      largeTablet: 6.5,
-                                      desktop: 7
-                                    ),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.purple.withOpacity(0.2),
-                                    borderRadius: BorderRadius.circular(16),
-                                    border: Border.all(
-                                      color: Colors.purple.withOpacity(0.3),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    tech,
-                                    style: TextStyle(
-                                      color: Colors.purple[100],
-                                      fontSize: _getResponsiveSize(screenWidth, deviceType,
-                                        mobile: 12,
-                                        smallTablet: 8,
-                                        tablet: 12,
-                                        largeTablet: 12,
-                                        desktop: 16
-                                      ),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                )).toList(),
-                              ),
-                            ),
-                          ],
+                      const SizedBox(height: 8),
+                      Text(
+                        description,
+                        style: TextStyle(
+                          color: Colors.grey[300],
+                          fontSize: descriptionSize,
+                          height: 1.3,
                         ),
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: technologies.map((tech) => Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: cardPadding * 0.4,
+                            vertical: cardPadding * 0.2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.purple.withOpacity(0.3),
+                            ),
+                          ),
+                          child: Text(
+                            tech,
+                            style: TextStyle(
+                              color: Colors.purple[100],
+                              fontSize: descriptionSize * 0.9,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        )).toList(),
                       ),
                     ],
                   ),
@@ -687,28 +590,28 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
   }
 
   Widget _buildIntroSection(DeviceType deviceType, double screenWidth) {
-    double welcomeSize = _getResponsiveSize(screenWidth, deviceType,
+    double welcomeSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 16,
       smallTablet: 18,
       tablet: 20,
       largeTablet: 22,
       desktop: 24
     );
-    double nameSize = _getResponsiveSize(screenWidth, deviceType,
+    double nameSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 28,
       smallTablet: 32,
       tablet: 36,
       largeTablet: 42,
       desktop: 48
     );
-    double roleSize = _getResponsiveSize(screenWidth, deviceType,
+    double roleSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 20,
       smallTablet: 23,
       tablet: 26,
       largeTablet: 29,
       desktop: 32
     );
-    double descriptionSize = _getResponsiveSize(screenWidth, deviceType,
+    double descriptionSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 14,
       smallTablet: 15,
       tablet: 16,
@@ -787,4 +690,48 @@ enum DeviceType {
   tablet,
   largeTablet,
   desktop,
+}
+
+DeviceType getDeviceType(double screenWidth) {
+  if (screenWidth < 600) return DeviceType.mobile;
+  if (screenWidth < 900) return DeviceType.smallTablet;
+  if (screenWidth < 1200) return DeviceType.tablet;
+  if (screenWidth < 1536) return DeviceType.largeTablet;
+  return DeviceType.desktop;
+}
+
+double getResponsiveSize(double screenWidth, DeviceType deviceType, {
+  required double mobile,
+  required double smallTablet,
+  required double tablet,
+  required double largeTablet,
+  required double desktop,
+}) {
+  switch (deviceType) {
+    case DeviceType.mobile:
+      return mobile;
+    case DeviceType.smallTablet:
+      return smallTablet;
+    case DeviceType.tablet:
+      return tablet;
+    case DeviceType.largeTablet:
+      return largeTablet;
+    case DeviceType.desktop:
+      return desktop;
+  }
+}
+
+int getGridCrossAxisCount(DeviceType deviceType) {
+  switch (deviceType) {
+    case DeviceType.mobile:
+      return 1;
+    case DeviceType.smallTablet:
+      return 2;
+    case DeviceType.tablet:
+      return 2;
+    case DeviceType.largeTablet:
+      return 2;
+    case DeviceType.desktop:
+      return 2;
+  }
 }
