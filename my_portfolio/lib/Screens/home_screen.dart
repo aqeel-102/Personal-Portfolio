@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_portfolio/appbar_screens/about.dart';
 import 'package:my_portfolio/appbar_screens/contact.dart';
 import 'package:my_portfolio/appbar_screens/projects.dart';
+import 'package:my_portfolio/images/images.dart';
 import '../widgets/custom_widgets.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:math' show cos, pi, sin;
-import '../widgets/contact_form.dart';
 
 class PortfolioHomePage extends StatefulWidget {
   const PortfolioHomePage({super.key});
@@ -23,14 +23,34 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
   final ScrollController _scrollController = ScrollController();
   late AnimationController _orbitController;
 
-  final List<String> skills = [
-    'Flutter', 'Dart', 'Firebase', 'Node.js',
-    'React', 'JavaScript', 'Python', 'Git'
+  // Cache skill icons to avoid repeated asset loading
+  final List<String> skillIcons = [
+    'assets/flutter.png',
+    'assets/dart.png', 
+    'assets/firebase.png',
+    'assets/c.png',
+    'assets/html.png',
+    'assets/css.png',
+    'assets/javascript.png',
+    'assets/github.png'
   ];
+
+  // Cache image assets
+  final Map<String, Image> _cachedImages = {};
 
   @override
   void initState() {
     super.initState();
+    
+    // Pre-cache images
+    for (String path in skillIcons) {
+      _cachedImages[path] = Image.asset(path);
+    }
+    _cachedImages['assets/dp.jpg'] = Image.asset('assets/dp.jpg');
+    _cachedImages['assets/2.jpg'] = Image.asset('assets/2.jpg');
+    _cachedImages['assets/poerfolioimg.jpg'] = Image.asset('assets/poerfolioimg.jpg');
+    _cachedImages['assets/1.jpg'] = Image.asset('assets/1.jpg');
+
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -58,10 +78,11 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     _controller.dispose();
     _orbitController.dispose();
     _scrollController.dispose();
+    _cachedImages.clear();
     super.dispose();
   }
 
-  Widget _buildOrbitingSkills(double radius, DeviceType deviceType, double screenWidth) {
+    Widget _buildOrbitingSkills(double radius, DeviceType deviceType, double screenWidth) {
     // Responsive sizing
     double containerSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 150,
@@ -95,6 +116,15 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
       desktop: 12
     );
 
+    // Adjust icon size for the orbiting skills
+    double orbitingIconSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 24,
+      smallTablet: 28,
+      tablet: 32,
+      largeTablet: 36,
+      desktop: 40
+    );
+
     return SizedBox(
       width: orbitRadius * 2.5,
       height: orbitRadius * 2.5,
@@ -122,19 +152,19 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
             ),
           ).animate().fadeIn().scale(),
           
-          // Orbiting skills
-          ...List.generate(skills.length, (index) {
+          // Updated orbiting skills to show only icons
+          ...List.generate(skillIcons.length, (index) {
             return AnimatedBuilder(
               animation: _orbitController,
               builder: (context, child) {
-                final angle = 2 * pi * (index / skills.length) + _orbitController.value * 2 * pi;
+                final angle = 2 * pi * (index / skillIcons.length) + _orbitController.value * 2 * pi;
                 final x = orbitRadius * cos(angle);
                 final y = orbitRadius * sin(angle);
                 
                 return Transform.translate(
                   offset: Offset(x, y),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: skillPadding, vertical: skillPadding/2),
+                    padding: EdgeInsets.all(skillPadding),
                     decoration: BoxDecoration(
                       color: Colors.purple.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(15),
@@ -147,13 +177,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                         ),
                       ],
                     ),
-                    child: Text(
-                      skills[index],
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    child: Image.asset(
+                      skillIcons[index],
+                      height: orbitingIconSize,
+                      width: orbitingIconSize,
                     ),
                   ),
                 );
@@ -164,6 +191,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
       ),
     );
   }
+
 
   Future<void> _launchURL(String url) async {
     final uri = Uri.parse(url);
@@ -300,6 +328,51 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                         largeTablet: 110,
                         desktop: 120
                       )),
+                      
+                      const SizedBox(height: 20),
+
+                      // Skills Section
+                      Text(
+                        'My Skills',
+                        style: TextStyle(
+                          fontSize: getResponsiveSize(screenWidth, deviceType,
+                            mobile: 24,
+                            smallTablet: 26,
+                            tablet: 28,
+                            largeTablet: 32,
+                            desktop: 36
+                          ),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ).animate().fadeIn().slideX(),
+                      
+                      const SizedBox(height: 30),
+                      
+                      Wrap(
+                        spacing: 20,
+                        runSpacing: 20,
+                        children: [
+                          _buildSkillCard('Dart', Images.dart, deviceType, screenWidth),
+                          _buildSkillCard('Flutter', Images.flutter, deviceType, screenWidth),
+                          _buildSkillCard('Firebase', Images.firebase, deviceType, screenWidth),
+                          _buildSkillCard('Github', Images.github, deviceType, screenWidth),
+                          _buildSkillCard('HTML', Images.html, deviceType, screenWidth),
+                          _buildSkillCard('CSS', Images.css, deviceType, screenWidth),
+                          _buildSkillCard('JavaScript', Images.js, deviceType, screenWidth),
+                          _buildSkillCard('Git', Images.github, deviceType, screenWidth),
+                          _buildSkillCard('C/C++', Images.c, deviceType, screenWidth)
+                        ],
+                      ),
+                      
+                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
+                        mobile: 80,
+                        smallTablet: 90,
+                        tablet: 100,
+                        largeTablet: 110,
+                        desktop: 120
+                      )),
+
                       const SizedBox(height: 20),
                       // Projects Section
                       Text(
@@ -320,80 +393,84 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                       const SizedBox(height: 50),
                       
                       // Projects Grid
-                      GridView.count(
+                      GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: getGridCrossAxisCount(deviceType),
-                        crossAxisSpacing: getResponsiveSize(screenWidth, deviceType,
-                          mobile: 16,
-                          smallTablet: 20,
-                          tablet: 24,
-                          largeTablet: 30,
-                          desktop: 40
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: getGridCrossAxisCount(deviceType),
+                          crossAxisSpacing: getResponsiveSize(screenWidth, deviceType,
+                            mobile: 16,
+                            smallTablet: 20,
+                            tablet: 24,
+                            largeTablet: 30,
+                            desktop: 40
+                          ),
+                          mainAxisSpacing: getResponsiveSize(screenWidth, deviceType,
+                            mobile: 16,
+                            smallTablet: 20,
+                            tablet: 24,
+                            largeTablet: 30,
+                            desktop: 40
+                          ),
+                          childAspectRatio: getResponsiveSize(screenWidth, deviceType,
+                            mobile: 1.0,
+                            smallTablet: 1.05,
+                            tablet: 1.1,
+                            largeTablet: 1.15,
+                            desktop: 1.2
+                          ),
                         ),
-                        mainAxisSpacing: getResponsiveSize(screenWidth, deviceType,
-                          mobile: 16,
-                          smallTablet: 20,
-                          tablet: 24,
-                          largeTablet: 30,
-                          desktop: 40
-                        ),
-                        childAspectRatio: getResponsiveSize(screenWidth, deviceType,
-                          mobile: 1.0,
-                          smallTablet: 1.05,
-                          tablet: 1.1,
-                          largeTablet: 1.15,
-                          desktop: 1.2
-                        ),
-                        padding: EdgeInsets.zero,
-                        children: [
-                          buildProjectCard(
-                            context,
-                            'Project 1',
-                            'Simple Tools',
-                            'A simple tools app built with Flutter and Api integration.',
-                            'assets/poerfolioimg.jpg',
-                            ['Flutter', 'Api Integration', 'State Management','UI/UX'],
-                            0,
-                            deviceType,
-                            screenWidth,
-                          ),
-                          buildProjectCard(
-                            context,
-                            'Project 2',
-                            'Weather App',
-                            'A weather app built with Flutter with real-time weather data.',
-                            'assets/poerfolioimg.jpg',
-                            ['Flutter', 'Api Integration', 'State Management'],
-                            1,
-                            deviceType,
-                            screenWidth,
-                          ),
-                          buildProjectCard(
-                            context,
-                            'Project 3',
-                            'Money Tracker',
-                            'A money tracker app built with Flutter with laravel backend.',
-                            'assets/poerfolioimg.jpg',
-                            ['Flutter','Rest Api', 'State Management', 'Laravel', 'Authentication'],
-                            2,
-                            deviceType,
-                            screenWidth,
-                          ),
-                          buildProjectCard(
-                            context,
-                            'Project 4',
-                            'Portfolio Website',
-                            'A portfolio website built with Flutter.',
-                            'assets/poerfolioimg.jpg',
-                            ['Flutter', 'State Management', 'UI/UX' , 'Web Development'],
-                            3,
-                            deviceType,
-                            screenWidth,
-                          ),
-                        ],
+                        itemCount: 3,
+                        itemBuilder: (context, index) {
+                          final List<Map<String, dynamic>> projects = [
+                            {
+                              'title': 'Project 1',
+                              'subtitle': 'Simple Tools',
+                              'description': 'A simple tools app built with Flutter and Api integration.',
+                              'image': 'assets/2.jpg',
+                              'technologies': <String>['Flutter', 'Api Integration', 'State Management', 'UI/UX'],
+                            },
+                           
+                            {
+                              'title': 'Project 2',
+                              'subtitle': 'Money Tracker',
+                              'description': 'A money tracker app built with Flutter with laravel backend.',
+                              'image': 'assets/1.jpg',
+                              'technologies': <String>['Flutter', 'Rest Api', 'Laravel', 'Authentication'],
+                            },
+                            {
+                              'title': 'Project 3',
+                              'subtitle': 'Portfolio Website',
+                              'description': 'A portfolio website built with Flutter.',
+                              'image': 'assets/Portfoilio Website.png',
+                              'technologies': <String>['Flutter', 'State Management', 'UI/UX', 'Web Development'],
+                            },
+                          ];
+
+                          final project = projects[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ProjectsPage(),
+                                ),
+                              );
+                            },
+                            child: buildProjectCard(
+                              context,
+                              project['title'] as String,
+                              project['subtitle'] as String,
+                              project['description'] as String,
+                              project['image'] as String,
+                              project['technologies'] as List<String>,
+                              index,
+                              deviceType,
+                              screenWidth,
+                            ),
+                          );
+                        },
                       ),
-                      
                       SizedBox(height: getResponsiveSize(screenWidth, deviceType,
                         mobile: 80,
                         smallTablet: 90,
@@ -403,11 +480,17 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                       )),
                       
                       // Footer
-                      Center(
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 40),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            top: BorderSide(color: Colors.purple.withOpacity(0.3), width: 1),
+                          ),
+                        ),
                         child: Column(
                           children: [
                             Text(
-                              'Let\'s Connect',
+                              'Get in Touch',
                               style: TextStyle(
                                 fontSize: getResponsiveSize(screenWidth, deviceType,
                                   mobile: 24,
@@ -420,15 +503,14 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                                 color: Colors.white,
                               ),
                             ),
-                            const SizedBox(height: 30),
-                            Container(
+                            const SizedBox(height: 20),
+                            SizedBox(
                               width: deviceType == DeviceType.mobile ? double.infinity : 
                                      screenWidth * (deviceType == DeviceType.smallTablet ? 0.8 : 
                                                     deviceType == DeviceType.tablet ? 0.7 : 
                                                     deviceType == DeviceType.largeTablet ? 0.65 : 0.6),
-                              padding: const EdgeInsets.symmetric(vertical: 30),
                               child: Text(
-                                'I\'m always open to discussing new projects, creative ideas or opportunities to be part of your visions.',
+                                'Im always open to discussing product design work or partnership opportunities.',
                                 style: TextStyle(
                                   color: Colors.grey[400],
                                   fontSize: getResponsiveSize(screenWidth, deviceType,
@@ -442,10 +524,48 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                                 textAlign: TextAlign.center,
                               ),
                             ),
+                            const SizedBox(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.email),
+                                  onPressed: () => _launchURL('mailto:aqeelahmad.dev@gmail.com'),
+                                  color: Colors.white,
+                                  tooltip: 'Email',
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.message),
+                                  onPressed: () => _launchURL('https://www.linkedin.com/in/aqeel-ahmad-534530311'),
+                                  color: Colors.white,
+                                  tooltip: 'LinkedIn',
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.code),
+                                  onPressed: () => _launchURL('https://github.com/aqeel-102'),
+                                  color: Colors.white,
+                                  tooltip: 'GitHub',
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              '© 2023 Aqeel Ahmad. All rights reserved.',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: getResponsiveSize(screenWidth, deviceType,
+                                  mobile: 12,
+                                  smallTablet: 13,
+                                  tablet: 14,
+                                  largeTablet: 15,
+                                  desktop: 16
+                                ),
+                              ),
+                            ),
                           ],
-                        ).animate().fadeIn().scale(),
-                      ),
-                      const ContactForm(),
+                        ),
+                      ).animate().fadeIn().scale(),
+                      
                     ],
                   ),
                 ),
@@ -457,27 +577,101 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
   }
 
+  Widget _buildSkillCard(String skill, String imagePath, DeviceType deviceType, double screenWidth) {
+    double cardSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 80,
+      smallTablet: 90,
+      tablet: 100,
+      largeTablet: 120,
+      desktop: 140
+    );
+
+    double imageSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 18,
+      smallTablet: 22,
+      tablet: 26,
+      largeTablet: 30,
+      desktop: 35
+    );
+
+    double fontSize = getResponsiveSize(screenWidth, deviceType,
+      mobile: 12,
+      smallTablet: 14,
+      tablet: 16,
+      largeTablet: 18,
+      desktop: 20
+    );
+
+    return Container(
+      width: cardSize,
+      height: cardSize,
+      decoration: BoxDecoration(
+        color: Colors.purple.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.purple.withOpacity(0.3)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.purple.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            imagePath,
+            width: imageSize,
+            height: imageSize,
+          ),
+          SizedBox(height: cardSize * 0.1),
+          Text(
+            skill,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    ).animate()
+      .fadeIn(duration: const Duration(milliseconds: 600))
+      .scale(delay: const Duration(milliseconds: 200))
+      .shimmer(duration: const Duration(seconds: 1), curve: Curves.easeInOut)
+      .then()
+      .shake(hz: 2, curve: Curves.easeInOut)
+      .then()
+      .elevation(
+        begin: 0,
+        end: 8,
+        curve: Curves.easeInOut,
+        duration: const Duration(seconds: 1),
+      );
+  }
+
   Widget buildProjectCard(BuildContext context, String title, String subtitle, String description, String imagePath, List<String> technologies, int index, DeviceType deviceType, double screenWidth) {
     double titleSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 12,
-      smallTablet: 13,
-      tablet: 14,
-      largeTablet: 15,
-      desktop: 16
+      smallTablet: 9,
+      tablet: 10,
+      largeTablet: 11,
+      desktop: 23
     );
     double subtitleSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 16,
-      smallTablet: 17,
-      tablet: 18,
-      largeTablet: 19,
-      desktop: 20
+      smallTablet: 10,
+      tablet: 11,
+      largeTablet: 13,
+      desktop: 26
     );
     double descriptionSize = getResponsiveSize(screenWidth, deviceType,
       mobile: 12,
-      smallTablet: 12,
-      tablet: 13,
-      largeTablet: 13,
-      desktop: 14
+      smallTablet: 8,
+      tablet: 9,
+      largeTablet: 11,
+      desktop: 20
     );
     
     double cardPadding = getResponsiveSize(screenWidth, deviceType,
@@ -583,9 +777,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
             ],
           ),
         ),
-      ).animate()
-        .fadeIn(duration: const Duration(milliseconds: 600))
-        .scale(delay: const Duration(milliseconds: 200)),
+      ),
     );
   }
 

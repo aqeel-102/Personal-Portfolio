@@ -88,7 +88,7 @@ class AboutPage extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.purple, width: 4),
                     image: const DecorationImage(
-                      image: AssetImage('assets/profile.jpg'),
+                      image: AssetImage('assets/dp.JPG'),
                       fit: BoxFit.cover,
                     ),
                   ),
