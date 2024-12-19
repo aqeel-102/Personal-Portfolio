@@ -24,25 +24,23 @@ class CustomTextButton extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final responsiveFontSize = screenWidth < 800 ? 14.0 : fontSize;
 
-    return Expanded(
-      child: TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          padding: EdgeInsets.symmetric(
-            horizontal: screenWidth < 800 ? 8 : 16, 
-            vertical: 8
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth < 800 ? 8 : 16,
+          vertical: 8
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor ?? Theme.of(context).primaryColor,
-            fontSize: responsiveFontSize,
-            fontWeight: fontWeight,
-          ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: textColor ?? Theme.of(context).primaryColor,
+          fontSize: responsiveFontSize,
+          fontWeight: fontWeight,
         ),
       ),
     );
@@ -112,14 +110,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       leading: const SizedBox.shrink(),
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 0,
-      flexibleSpace: Container(
-        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      flexibleSpace: SafeArea(
         child: Center(
           child: Container(
             width: screenWidth * (isMobile ? 0.95 : 0.8),
             height: isMobile ? 50 : 60,
+            margin: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(40)),
               gradient: const LinearGradient(
@@ -160,45 +158,48 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   if (!isMobile)
-                    Row(
-                      children: [
-                        CustomTextButton(
-                          text: 'Home', 
-                          onPressed: () => onNavigate('/home')
-                        ).animate()
-                          .fadeIn(delay: const Duration(milliseconds: 200)),
-                        SizedBox(width: screenWidth < 850 ? 10 : 20),
-                        CustomTextButton(
-                          text: 'About',
-                          onPressed: () => onNavigate('/about')
-                        ).animate()
-                          .fadeIn(delay: const Duration(milliseconds: 400)),
-                        SizedBox(width: screenWidth < 850 ? 10 : 20),
-                        CustomTextButton(
-                          text: 'Projects', 
-                          onPressed: () => onNavigate('/projects')
-                        ).animate()
-                          .fadeIn(delay: const Duration(milliseconds: 600)),
-                        SizedBox(width: screenWidth < 850 ? 10 : 20),
-                        CustomTextButton(
-                          text: 'Contact', 
-                          onPressed: () => onNavigate('/contact')
-                        ).animate()
-                          .fadeIn(delay: const Duration(milliseconds: 800)),
-                        SizedBox(width: screenWidth < 850 ? 10 : 20),
-                        CustomTextButton(
-                          text: 'Resume',
-                          onPressed: () => onLaunchURL('https://drive.google.com/file/d/12sKIQEJNvgieQCQ5C9La_6MS8uDFythk/view?usp=sharing'),
-                        ).animate()
-                          .fadeIn(delay: const Duration(milliseconds: 1000)),
-                      ],
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomTextButton(
+                            text: 'Home',
+                            onPressed: () => onNavigate('/home')
+                          ).animate()
+                            .fadeIn(delay: const Duration(milliseconds: 200)),
+                          SizedBox(width: screenWidth < 850 ? 10 : 20),
+                          CustomTextButton(
+                            text: 'About',
+                            onPressed: () => onNavigate('/about')
+                          ).animate()
+                            .fadeIn(delay: const Duration(milliseconds: 400)),
+                          SizedBox(width: screenWidth < 850 ? 10 : 20),
+                          CustomTextButton(
+                            text: 'Projects',
+                            onPressed: () => onNavigate('/projects')
+                          ).animate()
+                            .fadeIn(delay: const Duration(milliseconds: 600)),
+                          SizedBox(width: screenWidth < 850 ? 10 : 20),
+                          CustomTextButton(
+                            text: 'Contact',
+                            onPressed: () => onNavigate('/contact')
+                          ).animate()
+                            .fadeIn(delay: const Duration(milliseconds: 800)),
+                          SizedBox(width: screenWidth < 850 ? 10 : 20),
+                          CustomTextButton(
+                            text: 'Resume',
+                            onPressed: () => onLaunchURL('https://drive.google.com/file/d/12sKIQEJNvgieQCQ5C9La_6MS8uDFythk/view?usp=sharing'),
+                          ).animate()
+                            .fadeIn(delay: const Duration(milliseconds: 1000)),
+                        ],
+                      ),
                     )
                   else
                     IconButton(
                       icon: const Icon(Icons.menu),
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => CustomDrawer(onNavigate: onNavigate)));
-                        },
+                      },
                     ).animate()
                       .fadeIn()
                       .scale(delay: const Duration(milliseconds: 300)),
