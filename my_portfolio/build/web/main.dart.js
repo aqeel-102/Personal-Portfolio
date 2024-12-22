@@ -66652,7 +66652,7 @@ e=A.be(A.bc(A.q9(A.a3(new A.ak(A.a(["Flutter","Dart","Firebase","REST APIs","Git
 s=A.be(A.bc(A.b7("Education",p,p,A.b8(p,p,B.i,p,p,p,p,p,p,p,p,m?24:28,p,p,B.R,p,p,!0,p,p,p,p,p,p,p,p),p)),p,p)
 r=A.dh(10)
 q=t.D
-r=A.db(A.be(A.bc(A.bZ(p,A.cS(A.a([A.b7("Bachelor of Science in Computer Science",p,p,B.w_,p),B.iI,A.b7("University Name",p,p,A.b8(p,p,B.aT,p,p,p,p,p,p,p,p,16,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p),B.iI,A.b7("2022 - 2026",p,p,A.b8(p,p,B.bR,p,p,p,p,p,p,p,p,14,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p)],q),B.a5,B.O),B.l,p,p,new A.bR(B.bQ,p,p,r,p,p,B.K),p,p,B.Ak,p)),p,p),p,p,p,p,p)
+r=A.db(A.be(A.bc(A.bZ(p,A.cS(A.a([A.b7("Bachelor in Computer Science",p,p,B.w_,p),B.iI,A.b7("University of Education",p,p,A.b8(p,p,B.aT,p,p,p,p,p,p,p,p,16,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p),B.iI,A.b7("2022 - 2026",p,p,A.b8(p,p,B.bR,p,p,p,p,p,p,p,p,14,p,p,p,p,p,!0,p,p,p,p,p,p,p,p),p)],q),B.a5,B.O),B.l,p,p,new A.bR(B.bQ,p,p,r,p,p,B.K),p,p,B.Ak,p)),p,p),p,p,p,p,p)
 return A.w9(new A.m0(n,o,o*l,new A.RF(a),new A.RE(),p),B.da,A.Hn(new A.cD(new A.ax(k,30,k,30),A.cS(A.a([j,B.bE,i,B.aN,h,B.bD,g,B.bE,f,B.aN,e,B.bE,s,B.aN,r,B.bE,A.be(A.bc(A.b7("Get in Touch",p,p,A.b8(p,p,B.i,p,p,p,p,p,p,p,p,m?24:28,p,p,B.R,p,p,!0,p,p,p,p,p,p,p,p),p)),p,p),B.aN,A.db(A.be(A.bc(this.Dh(B.ey,"Email:","aqeelahmad.dev@gmail.com")),p,p),p,p,p,p,p),B.J_,A.db(A.be(A.bc(this.Dh(B.kw,"Location:","Lahore, Pakistan")),p,p),p,p,p,p,p)],q),B.a5,B.O),p),p,p),!1)},
 Dh(a,b,c){var s=null
 return A.hv(A.a([A.i7(a,B.bv,s,24),B.IW,A.b7(b,s,s,B.KJ,s),B.IZ,A.b7(c,s,s,A.b8(s,s,B.aT,s,s,s,s,s,s,s,s,16,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s)],t.D),B.L,B.O,B.aB)},
@@ -69936,12 +69936,12 @@ B.kb=new A.m1(2,"initializedServices")
 B.zI=new A.m1(3,"initializingUi")
 B.zJ=new A.m1(4,"initialized")
 B.Py=new A.Ub(1,"traversalOrder")
-B.wH=new A.lM("assets/dp.JPG",null,null)
+B.wG=new A.lM("assets/profilepic.jpeg",null,null)
 B.bb=new A.oQ(3,"noRepeat")
 B.aV=new A.mb(2,"medium")
-B.zK=new A.m2(B.wH)
-B.wG=new A.lM("assets/dp.jpg",null,null)
-B.zL=new A.m2(B.wG)
+B.zK=new A.m2(B.wG)
+B.wH=new A.lM("assets/dp.jpg",null,null)
+B.zL=new A.m2(B.wH)
 B.hh=new A.CN(0,"background")
 B.zM=new A.CN(1,"foreground")
 B.P5=new A.M6(null)

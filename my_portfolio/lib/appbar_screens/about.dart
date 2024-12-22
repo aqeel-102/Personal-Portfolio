@@ -88,7 +88,7 @@ class AboutPage extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.purple, width: 4),
                     image: const DecorationImage(
-                      image: AssetImage('assets/dp.JPG'),
+                      image: AssetImage('assets/profilepic.jpeg'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -195,8 +195,8 @@ class AboutPage extends StatelessWidget {
               const SizedBox(height: 20),
               
               _buildEducationItem(
-                'Bachelor of Science in Computer Science',
-                'University Name',
+                'Bachelor in Computer Science',
+                'University of Education',
                 '2022 - 2026',
               ).animate().fadeIn().slideX(),
               
