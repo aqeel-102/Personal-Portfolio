@@ -65,6 +65,7 @@ class ProjectDetailsScreen extends StatelessWidget {
                         imageUrl ?? project.images[0],
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
+                          print('Error loading image: $error');
                           return Container(
                             color: Colors.grey[900],
                             child: Center(
@@ -73,18 +74,19 @@ class ProjectDetailsScreen extends StatelessWidget {
                                 children: [
                                   Icon(
                                     Icons.error_outline_rounded,
-                                    color: Colors.white.withOpacity(0.7),
-                                    size: 52,
-                                  ).animate(onPlay: (controller) => controller.repeat())
-                                    .shimmer(duration: const Duration(seconds: 2)),
+                                    color: Colors.white.withOpacity(0.6),
+                                    size: 48,
+                                  ),
                                   const SizedBox(height: 16),
-                                  Text(
-                                    'Failed to load image',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.7),
-                                      fontSize: 18,
-                                      letterSpacing: 0.5,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    child: Text(
+                                      'Failed to load image\nPath: ${imageUrl ?? project.images[0]}',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.6),
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -247,23 +249,24 @@ class ProjectDetailsScreen extends StatelessWidget {
               ),
             ),
 
-            // Presentation Section
+            // Project Gallery Section
             SliverToBoxAdapter(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center, // Changed to center
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center, // Added center alignment
                       children: [
                         Icon(
-                          Icons.slideshow_rounded,
+                          Icons.photo_library_rounded,
                           color: project.accentColor,
                           size: 28,
                         ),
                         const SizedBox(width: 12),
                         const Text(
-                          "Project Presentation",
+                          "Project Gallery",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -275,59 +278,119 @@ class ProjectDetailsScreen extends StatelessWidget {
                       .fadeIn()
                       .slideX(begin: -0.2, end: 0),
                   ),
-                  if (project.presentation.isNotEmpty)
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 32),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
-                          BoxShadow(
-                            color: project.accentColor.withOpacity(0.2),
-                            blurRadius: 30,
-                            offset: const Offset(0, 10),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxWidth: 800,
+                        ),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: deviceType == home.DeviceType.mobile ? 1 : 2,
+                            crossAxisSpacing: 150, // Increased from 15 to 30
+                            mainAxisSpacing: 50,
+                            childAspectRatio: 2.5 / 5,
                           ),
-                        ],
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Image.asset(
-                        project.presentation[0],
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            height: 300,
-                            color: Colors.grey[900],
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.error_outline_rounded,
-                                    color: Colors.white.withOpacity(0.6),
-                                    size: 48,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    'Failed to load presentation image',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.6),
-                                      fontSize: 16,
+                          itemCount: project.images.length - 1,
+                          itemBuilder: (context, index) {
+                            final imageIndex = index + 1; // Skip first image by adding 1 to index
+                            return GestureDetector(
+                              onTap: () => _showFullScreenImage(context, project.images[imageIndex]),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[900],
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: project.accentColor.withOpacity(0.2),
+                                      blurRadius: 30,
+                                      offset: const Offset(0, 10),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: Image.asset(
+                                  project.images[imageIndex],
+                                  fit: BoxFit.fill,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    
+                                    return Container(
+                                      color: Colors.grey[900],
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Icon(
+                                            Icons.error_outline_rounded,
+                                            color: Colors.white.withOpacity(0.6),
+                                            size: 48,
+                                          ),
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            'Failed to load image: ${project.images[imageIndex]}',
+                                            style: TextStyle(
+                                              color: Colors.white.withOpacity(0.6),
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            ).animate()
+                              .fadeIn(delay: Duration(milliseconds: index * 200))
+                              .slideY(begin: 0.2, end: 0, curve: Curves.easeOutQuart);
+                          },
+                        ),
                       ),
-                    ).animate()
-                      .fadeIn()
-                      .slideY(begin: 0.2, end: 0, curve: Curves.easeOutQuart),
+                    ),
+                  ),
                   const SizedBox(height: 40),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showFullScreenImage(BuildContext context, String imageUrl) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          backgroundColor: Colors.black,
+          body: Stack(
+            fit: StackFit.expand,
+            children: [
+              InteractiveViewer(
+                minScale: 0.5,
+                maxScale: 3.0,
+                child: Center(
+                  child: Image.asset(
+                    imageUrl,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 40,
+                left: 20,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

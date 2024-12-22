@@ -45,7 +45,9 @@ flutter:
   assets:
     - assets/
     - assets/1.jpg
-    - assets/2.jpg
     - assets/poerfolioimg.jpg
     - assets/dp.jpg
+    - assets/tracker.png
+    - assets/simpletools.png
+    - assets/portolio_final.png
 

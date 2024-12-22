@@ -38,11 +38,20 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
 
 
   final List<Project> projects = [
-    Project(
+  Project(
       title: 'Expense Tracker',
       subtitle: 'Finance Management App',
       description: 'A comprehensive finance management app with expense tracking, budgeting, and insightful analytics.',
-      images: ['assets/1.jpg'],
+      images: [
+       'assets/1.jpg',
+       'assets/f.png',
+        'assets/1.png',
+        'assets/e.png',
+        'assets/d.png',
+        'assets/a.png',
+        'assets/c2.png',
+        'assets/b.png',
+      ],  // Multiple images for the project
       technologies: ['Flutter', 'Laravel', 'Restful API'],
       presentation: ['assets/tracker.png'], 
       accentColor: Colors.green,
@@ -51,16 +60,34 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
       title: 'Simple Tools',
       subtitle: 'Utility App Suite', 
       description: 'A collection of handy utility tools including multiple daily usage timers, time zone converter, and more.',
-      images: ['assets/2.jpg'],
+       images: [
+       'assets/2.jpg',
+        'assets/2.png',
+        'assets/3.png',
+        'assets/4.png',
+        'assets/5.png',
+        'assets/6.png',
+        'assets/7.png',
+        'assets/8.png',
+        'assets/9.png',
+      ],  
+     
       technologies: ['Flutter', 'Dart', 'Custom Animations'],
-       presentation: ['assets/simpletools.png'],  
-        accentColor: Colors.blue,
+      presentation: ['assets/simpletools.png'],  
+      accentColor: Colors.blue,
     ),
     Project(
       title: 'Personal Portfolio',
       subtitle: 'Interactive Web Portfolio',
       description: 'A dynamic and responsive web portfolio showcasing my projects and skills with interactive elements.',
-      images: ['assets/Portfoilio Website.png'],
+       images: [
+       'assets/Portfoilio Website.png',
+        'assets/aa.png',
+        'assets/bb.png',
+        'assets/cc.png',
+        'assets/dd.png',
+        
+      ],  /// Multiple images for the project
       technologies: ['Flutter Web', 'Responsive Design', 'Animation'],
        presentation: ['assets/portolio_final.png'], 
       accentColor: Colors.purple,
