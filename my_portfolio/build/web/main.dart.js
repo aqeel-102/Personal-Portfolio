@@ -66938,7 +66938,7 @@ A.ae_.prototype={
 $1(a){A.HT(B.vR,B.Cu)},
 $S:5}
 A.v2.prototype={
-P(a){return new A.uc(B.bf,this.gSo(),"Flutter Developer Portfolio",A.ah9(B.a7,null,null).a1W(new A.vr($.aoV()),B.aa,B.jM,A.amp(A.er())),!1,B.Nn,new A.S0(),null)},
+P(a){return new A.uc(B.bf,this.gSo(),"Aqeel Ahmad Portfolio",A.ah9(B.a7,null,null).a1W(new A.vr($.aoV()),B.aa,B.jM,A.amp(A.er())),!1,B.Nn,new A.S0(),null)},
 Sp(a,b){return A.agO(A.wh(a).Jp(A.bP([B.bz,B.cd],t.C),B.yo),b)}}
 A.xc.prototype={}
 A.va.prototype={}
