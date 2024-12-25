@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Developer Portfolio',
+      title: 'Aqeel Ahmad Portfolio',
       theme: _buildTheme(),
       defaultTransition: Transition.fade, // GetX transition
       builder: _buildAppWithScrollBehavior,
