@@ -185,7 +185,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           CustomTextButton(
                             text: 'Resume',
                             onPressed: () => onLaunchURL(
-                                'https://drive.google.com/file/d/1FprehvGxejg2NPpFzUei33j4DIGUo5Dz/view?usp=drive_link'),
+                                'https://docs.google.com/document/d/1tzchYTe1Vgc08uLHs_B6MNctoo0e235-u4QY6OuDhM0/edit?usp=sharing'),
                           ).animate().fadeIn(
                               delay: const Duration(milliseconds: 1000)),
                         ],

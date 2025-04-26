@@ -59,7 +59,7 @@ class CustomDrawer extends StatelessWidget {
                           _buildDrawerItem('Resume', Icons.description,
                               () async {
                             const url =
-                                'https://drive.google.com/file/d/1FprehvGxejg2NPpFzUei33j4DIGUo5Dz/view?usp=drive_link';
+                                'https://docs.google.com/document/d/1tzchYTe1Vgc08uLHs_B6MNctoo0e235-u4QY6OuDhM0/edit?usp=sharing';
                             if (!await launchUrl(Uri.parse(url))) {
                               throw Exception('Could not launch $url');
                             }

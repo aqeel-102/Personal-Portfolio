@@ -9,7 +9,7 @@ import '../appbar_screens/contact.dart';
 
 class Project {
   final String title;
-  final String subtitle; 
+  final String subtitle;
   final String description;
   final List<String> images;
   final List<String> presentation;
@@ -34,34 +34,35 @@ class ProjectsPage extends StatefulWidget {
   State<ProjectsPage> createState() => _ProjectsPageState();
 }
 
-class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderStateMixin {
-
-
+class _ProjectsPageState extends State<ProjectsPage>
+    with SingleTickerProviderStateMixin {
   final List<Project> projects = [
-  Project(
+    Project(
       title: 'Expense Tracker',
       subtitle: 'Finance Management App',
-      description: 'A comprehensive finance management app with expense tracking, budgeting, and insightful analytics.',
+      description:
+          'A comprehensive finance management app with expense tracking, budgeting, and insightful analytics.',
       images: [
-       'assets/1.jpg',
-       'assets/f.png',
+        'assets/1.jpg',
+        'assets/f.png',
         'assets/1.png',
         'assets/e.png',
         'assets/d.png',
         'assets/a.png',
         'assets/c2.png',
         'assets/b.png',
-      ],  // Multiple images for the project
+      ], // Multiple images for the project
       technologies: ['Flutter', 'Laravel', 'Restful API'],
-      presentation: ['assets/tracker.png'], 
+      presentation: ['assets/tracker.png'],
       accentColor: Colors.green,
     ),
     Project(
       title: 'Simple Tools',
-      subtitle: 'Utility App Suite', 
-      description: 'A collection of handy utility tools including multiple daily usage timers, time zone converter, and more.',
-       images: [
-       'assets/2.jpg',
+      subtitle: 'Utility App Suite',
+      description:
+          'A collection of handy utility tools including multiple daily usage timers, time zone converter, and more.',
+      images: [
+        'assets/2.jpg',
         'assets/2.png',
         'assets/3.png',
         'assets/4.png',
@@ -70,26 +71,27 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
         'assets/7.png',
         'assets/8.png',
         'assets/9.png',
-      ],  
-     
+      ],
       technologies: ['Flutter', 'Dart', 'Custom Animations'],
-      presentation: ['assets/simpletools.png'],  
+      presentation: ['assets/simpletools.png'],
       accentColor: Colors.blue,
     ),
     Project(
       title: 'Personal Portfolio',
       subtitle: 'Interactive Web Portfolio',
-      description: 'A dynamic and responsive web portfolio showcasing my projects and skills with interactive elements.',
-       images: [
-       'assets/Portfoilio Website.png',
+      description:
+          'A dynamic and responsive web portfolio showcasing my projects and skills with interactive elements.',
+      images: [
+        'assets/Portfoilio Website.png',
         'assets/aa.png',
         'assets/bb.png',
         'assets/cc.png',
         'assets/dd.png',
-        
-      ],  /// Multiple images for the project
+      ],
+
+      /// Multiple images for the project
       technologies: ['Flutter Web', 'Responsive Design', 'Animation'],
-       presentation: ['assets/portolio_final.png'], 
+      presentation: ['assets/portolio_final.png'],
       accentColor: Colors.purple,
     ),
   ];
@@ -122,7 +124,8 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final deviceType = getDeviceType(screenWidth);
-    final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.04 : 0.15);
+    final contentPadding =
+        screenWidth * (deviceType == DeviceType.mobile ? 0.04 : 0.15);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A1A),
@@ -138,7 +141,8 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
           SingleChildScrollView(
             child: Container(
               constraints: BoxConstraints(
-                minHeight: screenHeight - kToolbarHeight, // Subtract AppBar height
+                minHeight:
+                    screenHeight - kToolbarHeight, // Subtract AppBar height
               ),
               child: Column(
                 children: [
@@ -152,7 +156,6 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
       ),
     );
   }
-
 
   Widget _buildHeader(DeviceType deviceType) {
     return Padding(
@@ -168,12 +171,11 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
               color: Colors.white,
               letterSpacing: 1.2,
             ),
-          ).animate()
-            .fadeIn(duration: const Duration(milliseconds: 800))
-            .slideX(begin: -0.2, end: 0),
-          
+          )
+              .animate()
+              .fadeIn(duration: const Duration(milliseconds: 800))
+              .slideX(begin: -0.2, end: 0),
           const SizedBox(height: 16),
-          
           Text(
             'Pushing the boundaries of technology and design',
             style: TextStyle(
@@ -181,9 +183,10 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
               color: Colors.grey[300],
               height: 1.6,
             ),
-          ).animate()
-            .fadeIn(delay: const Duration(milliseconds: 400))
-            .slideX(begin: -0.2, end: 0),
+          )
+              .animate()
+              .fadeIn(delay: const Duration(milliseconds: 400))
+              .slideX(begin: -0.2, end: 0),
         ],
       ),
     );
@@ -227,7 +230,9 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
         child: GestureDetector(
           onTap: () => _navigateToProjectDetails(context, project),
           child: Container(
-            height: getResponsiveSize(screenWidth, deviceType,
+            height: getResponsiveSize(
+              screenWidth,
+              deviceType,
               mobile: 400,
               smallTablet: 350,
               tablet: 400,
@@ -247,19 +252,22 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
             ),
             child: deviceType == DeviceType.mobile
                 ? _buildMobileProjectTile(project, isHovered, screenWidth)
-                : _buildDesktopProjectTile(project, isHovered, isImageOnLeft, screenWidth, deviceType),
+                : _buildDesktopProjectTile(
+                    project, isHovered, isImageOnLeft, screenWidth, deviceType),
           ),
         ),
       ),
-    ).animate()
-      .fadeIn(
-        duration: const Duration(milliseconds: 600),
-        delay: Duration(milliseconds: index * 200),
-      )
-      .slideY(begin: 0.2, end: 0);
+    )
+        .animate()
+        .fadeIn(
+          duration: const Duration(milliseconds: 600),
+          delay: Duration(milliseconds: index * 200),
+        )
+        .slideY(begin: 0.2, end: 0);
   }
 
-  Widget _buildMobileProjectTile(Project project, bool isHovered, double screenWidth) {
+  Widget _buildMobileProjectTile(
+      Project project, bool isHovered, double screenWidth) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -269,7 +277,8 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
             fit: StackFit.expand,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(24)),
                 child: ShaderMask(
                   shaderCallback: (rect) {
                     return LinearGradient(
@@ -350,18 +359,23 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                 Wrap(
                   spacing: 4,
                   runSpacing: 4,
-                  children: project.technologies.map((tech) => _buildTechChip(tech, project.accentColor)).toList(),
+                  children: project.technologies
+                      .map((tech) => _buildTechChip(tech, project.accentColor))
+                      .toList(),
                 ),
                 if (isHovered) ...[
                   const SizedBox(height: 8),
                   OutlinedButton.icon(
-                    onPressed: () => _navigateToProjectDetails(context, project),
+                    onPressed: () =>
+                        _navigateToProjectDetails(context, project),
                     icon: const Icon(Icons.arrow_forward, size: 16),
-                    label: const Text('View More', style: TextStyle(fontSize: 12)),
+                    label:
+                        const Text('View More', style: TextStyle(fontSize: 12)),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: project.accentColor,
                       side: BorderSide(color: project.accentColor),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
                     ),
                   ),
                 ],
@@ -373,12 +387,14 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildDesktopProjectTile(Project project, bool isHovered, bool isImageOnLeft, double screenWidth, DeviceType deviceType) {
+  Widget _buildDesktopProjectTile(Project project, bool isHovered,
+      bool isImageOnLeft, double screenWidth, DeviceType deviceType) {
     return Row(
       children: [
-        if (isImageOnLeft) Expanded(
-          child: _buildProjectImage(project, isHovered),
-        ),
+        if (isImageOnLeft)
+          Expanded(
+            child: _buildProjectImage(project, isHovered),
+          ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
@@ -390,7 +406,9 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                   project.title,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: getResponsiveSize(screenWidth, deviceType,
+                    fontSize: getResponsiveSize(
+                      screenWidth,
+                      deviceType,
                       mobile: 26,
                       smallTablet: 26,
                       tablet: 28,
@@ -400,7 +418,10 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: getResponsiveSize(screenWidth, deviceType,
+                SizedBox(
+                    height: getResponsiveSize(
+                  screenWidth,
+                  deviceType,
                   mobile: 12,
                   smallTablet: 14,
                   tablet: 16,
@@ -411,7 +432,9 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                   project.subtitle,
                   style: TextStyle(
                     color: Colors.grey[300],
-                    fontSize: getResponsiveSize(screenWidth, deviceType,
+                    fontSize: getResponsiveSize(
+                      screenWidth,
+                      deviceType,
                       mobile: 18,
                       smallTablet: 20,
                       tablet: 22,
@@ -420,7 +443,10 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                     ),
                   ),
                 ),
-                SizedBox(height: getResponsiveSize(screenWidth, deviceType,
+                SizedBox(
+                    height: getResponsiveSize(
+                  screenWidth,
+                  deviceType,
                   mobile: 12,
                   smallTablet: 14,
                   tablet: 16,
@@ -431,7 +457,9 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                   project.description,
                   style: TextStyle(
                     color: Colors.grey[400],
-                    fontSize: getResponsiveSize(screenWidth, deviceType,
+                    fontSize: getResponsiveSize(
+                      screenWidth,
+                      deviceType,
                       mobile: 14,
                       smallTablet: 12,
                       tablet: 14,
@@ -440,7 +468,10 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                     ),
                   ),
                 ),
-                SizedBox(height: getResponsiveSize(screenWidth, deviceType,
+                SizedBox(
+                    height: getResponsiveSize(
+                  screenWidth,
+                  deviceType,
                   mobile: 12,
                   smallTablet: 14,
                   tablet: 16,
@@ -450,23 +481,31 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: project.technologies.map((tech) => _buildTechChip(tech, project.accentColor)).toList(),
+                  children: project.technologies
+                      .map((tech) => _buildTechChip(tech, project.accentColor))
+                      .toList(),
                 ),
                 if (isHovered) ...[
                   const SizedBox(height: 24),
                   OutlinedButton.icon(
-                    onPressed: () => _navigateToProjectDetails(context, project),
-                    icon: Icon(Icons.arrow_forward, size: getResponsiveSize(screenWidth, deviceType,
-                      mobile: 16,
-                      smallTablet: 18,
-                      tablet: 20,
-                      largeTablet: 22,
-                      desktop: 24,
-                    )),
+                    onPressed: () =>
+                        _navigateToProjectDetails(context, project),
+                    icon: Icon(Icons.arrow_forward,
+                        size: getResponsiveSize(
+                          screenWidth,
+                          deviceType,
+                          mobile: 16,
+                          smallTablet: 18,
+                          tablet: 20,
+                          largeTablet: 22,
+                          desktop: 24,
+                        )),
                     label: Text(
                       'View More',
                       style: TextStyle(
-                        fontSize: getResponsiveSize(screenWidth, deviceType,
+                        fontSize: getResponsiveSize(
+                          screenWidth,
+                          deviceType,
                           mobile: 12,
                           smallTablet: 14,
                           tablet: 16,
@@ -479,14 +518,18 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
                       foregroundColor: project.accentColor,
                       side: BorderSide(color: project.accentColor),
                       padding: EdgeInsets.symmetric(
-                        horizontal: getResponsiveSize(screenWidth, deviceType,
+                        horizontal: getResponsiveSize(
+                          screenWidth,
+                          deviceType,
                           mobile: 16,
                           smallTablet: 18,
                           tablet: 20,
                           largeTablet: 22,
                           desktop: 24,
                         ),
-                        vertical: getResponsiveSize(screenWidth, deviceType,
+                        vertical: getResponsiveSize(
+                          screenWidth,
+                          deviceType,
                           mobile: 8,
                           smallTablet: 10,
                           tablet: 12,
@@ -501,9 +544,10 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
             ),
           ),
         ),
-        if (!isImageOnLeft) Expanded(
-          child: _buildProjectImage(project, isHovered),
-        ),
+        if (!isImageOnLeft)
+          Expanded(
+            child: _buildProjectImage(project, isHovered),
+          ),
       ],
     );
   }
@@ -578,7 +622,8 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => ProjectDetailsScreen(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            ProjectDetailsScreen(
           project: project,
           imageUrl: project.images.isNotEmpty ? project.images[0] : null,
         ),
@@ -586,7 +631,8 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.easeOutExpo;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
 
           return SlideTransition(
@@ -620,9 +666,11 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
           const curve = Curves.easeInOutCubic;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
-          var fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+          var fadeAnimation =
+              Tween<double>(begin: 0.0, end: 1.0).animate(animation);
 
           return SlideTransition(
             position: offsetAnimation,
@@ -653,7 +701,9 @@ DeviceType getDeviceType(double screenWidth) {
   return DeviceType.desktop;
 }
 
-double getResponsiveSize(double screenWidth, DeviceType deviceType, {
+double getResponsiveSize(
+  double screenWidth,
+  DeviceType deviceType, {
   required double mobile,
   required double smallTablet,
   required double tablet,
