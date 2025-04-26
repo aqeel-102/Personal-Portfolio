@@ -33,24 +33,33 @@ class CustomDrawer extends StatelessWidget {
                           onPressed: () => Navigator.pop(context),
                           hoverColor: Colors.purple.withOpacity(0.2),
                           splashRadius: 24,
-                        ).animate()
-                          .fadeIn(duration: const Duration(milliseconds: 400))
-                          .scale(delay: const Duration(milliseconds: 200))
-                          .slideX(begin: 2, end: 0, duration: const Duration(milliseconds: 600)),
-                        
+                        )
+                            .animate()
+                            .fadeIn(duration: const Duration(milliseconds: 400))
+                            .scale(delay: const Duration(milliseconds: 200))
+                            .slideX(
+                                begin: 2,
+                                end: 0,
+                                duration: const Duration(milliseconds: 600)),
                       ),
-                      
+
                       const SizedBox(height: 100),
                       // Navigation Links
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildDrawerItem('Home     ', Icons.home, () => onNavigate('/home')),
-                          _buildDrawerItem('About    ', Icons.person, () => onNavigate('/about')),
-                          _buildDrawerItem('Projects', Icons.work, () => onNavigate('/projects')),
-                          _buildDrawerItem('Contact', Icons.email, () => onNavigate('/contact')),
-                          _buildDrawerItem('Resume', Icons.description, () async {
-                            const url = 'https://drive.google.com/file/d/12sKIQEJNvgieQCQ5C9La_6MS8uDFythk/view?usp=sharing';
+                          _buildDrawerItem('Home     ', Icons.home,
+                              () => onNavigate('/home')),
+                          _buildDrawerItem('About    ', Icons.person,
+                              () => onNavigate('/about')),
+                          _buildDrawerItem('Projects', Icons.work,
+                              () => onNavigate('/projects')),
+                          _buildDrawerItem('Contact', Icons.email,
+                              () => onNavigate('/contact')),
+                          _buildDrawerItem('Resume', Icons.description,
+                              () async {
+                            const url =
+                                'https://drive.google.com/file/d/1FprehvGxejg2NPpFzUei33j4DIGUo5Dz/view?usp=drive_link';
                             if (!await launchUrl(Uri.parse(url))) {
                               throw Exception('Could not launch $url');
                             }
@@ -60,17 +69,20 @@ class CustomDrawer extends StatelessWidget {
                       const SizedBox(height: 100),
                       // Social Icons
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 24),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _buildSocialIcon(Icons.code, 'https://github.com/aqeel-102'),
-                            _buildSocialIcon(Icons.work, 'https://www.linkedin.com/in/aqeel-ahmad-534530311'),
-                            _buildSocialIcon(Icons.alternate_email, 'mailto:aqeelahmad.dev@gmail.com'),
-                          
+                            _buildSocialIcon(
+                                Icons.code, 'https://github.com/aqeel-102'),
+                            _buildSocialIcon(Icons.work,
+                                'https://www.linkedin.com/in/aqeel-ahmad-534530311'),
+                            _buildSocialIcon(Icons.alternate_email,
+                                'mailto:aqeelahmad.dev@gmail.com'),
                           ],
                         ),
                       ),
@@ -127,9 +139,10 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
         ),
-      ).animate()
-        .fadeIn(duration: const Duration(milliseconds: 400))
-        .slideX(duration: const Duration(milliseconds: 300)),
+      )
+          .animate()
+          .fadeIn(duration: const Duration(milliseconds: 400))
+          .slideX(duration: const Duration(milliseconds: 300)),
     );
   }
 
@@ -148,9 +161,10 @@ class CustomDrawer extends StatelessWidget {
         },
         hoverColor: Colors.purple.withOpacity(0.2),
         splashRadius: 24,
-      ).animate()
-        .fadeIn(duration: const Duration(milliseconds: 400))
-        .scale(duration: const Duration(milliseconds: 300)),
+      )
+          .animate()
+          .fadeIn(duration: const Duration(milliseconds: 400))
+          .scale(duration: const Duration(milliseconds: 300)),
     );
   }
 }
