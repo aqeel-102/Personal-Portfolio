@@ -16,7 +16,8 @@ class PortfolioHomePage extends StatefulWidget {
   State<PortfolioHomePage> createState() => _PortfolioHomePageState();
 }
 
-class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProviderStateMixin {
+class _PortfolioHomePageState extends State<PortfolioHomePage>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
@@ -26,7 +27,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
   // Cache skill icons to avoid repeated asset loading
   final List<String> skillIcons = [
     'assets/flutter.png',
-    'assets/dart.png', 
+    'assets/dart.png',
     'assets/firebase.png',
     'assets/c.png',
     'assets/html.png',
@@ -41,14 +42,15 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
   @override
   void initState() {
     super.initState();
-    
+
     // Pre-cache images
     for (String path in skillIcons) {
       _cachedImages[path] = Image.asset(path);
     }
     _cachedImages['assets/dp.jpg'] = Image.asset('assets/dp.jpg');
     _cachedImages['assets/2.jpg'] = Image.asset('assets/2.jpg');
-    _cachedImages['assets/poerfolioimg.jpg'] = Image.asset('assets/poerfolioimg.jpg');
+    _cachedImages['assets/poerfolioimg.jpg'] =
+        Image.asset('assets/poerfolioimg.jpg');
     _cachedImages['assets/1.jpg'] = Image.asset('assets/1.jpg');
 
     _controller = AnimationController(
@@ -82,48 +84,36 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     super.dispose();
   }
 
-    Widget _buildOrbitingSkills(double radius, DeviceType deviceType, double screenWidth) {
+  Widget _buildOrbitingSkills(
+      double radius, DeviceType deviceType, double screenWidth) {
     // Responsive sizing
     double containerSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 150,
-      smallTablet: 175,
-      tablet: 200, 
-      largeTablet: 225,
-      desktop: 250
-    );
-    
+        mobile: 150,
+        smallTablet: 175,
+        tablet: 200,
+        largeTablet: 225,
+        desktop: 250);
+
     double orbitRadius = getResponsiveSize(screenWidth, deviceType,
-      mobile: 120,
-      smallTablet: 135,
-      tablet: 150,
-      largeTablet: 175,
-      desktop: radius
-    );
-    
+        mobile: 120,
+        smallTablet: 135,
+        tablet: 150,
+        largeTablet: 175,
+        desktop: radius);
+
     double fontSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 10,
-      smallTablet: 10.5,
-      tablet: 11,
-      largeTablet: 11.5,
-      desktop: 12
-    );
-    
+        mobile: 10,
+        smallTablet: 10.5,
+        tablet: 11,
+        largeTablet: 11.5,
+        desktop: 12);
+
     double skillPadding = getResponsiveSize(screenWidth, deviceType,
-      mobile: 6,
-      smallTablet: 8,
-      tablet: 10,
-      largeTablet: 11,
-      desktop: 12
-    );
+        mobile: 6, smallTablet: 8, tablet: 10, largeTablet: 11, desktop: 12);
 
     // Adjust icon size for the orbiting skills
     double orbitingIconSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 24,
-      smallTablet: 28,
-      tablet: 32,
-      largeTablet: 36,
-      desktop: 40
-    );
+        mobile: 24, smallTablet: 28, tablet: 32, largeTablet: 36, desktop: 40);
 
     return SizedBox(
       width: orbitRadius * 2.5,
@@ -151,16 +141,17 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
               ],
             ),
           ).animate().fadeIn().scale(),
-          
+
           // Updated orbiting skills to show only icons
           ...List.generate(skillIcons.length, (index) {
             return AnimatedBuilder(
               animation: _orbitController,
               builder: (context, child) {
-                final angle = 2 * pi * (index / skillIcons.length) + _orbitController.value * 2 * pi;
+                final angle = 2 * pi * (index / skillIcons.length) +
+                    _orbitController.value * 2 * pi;
                 final x = orbitRadius * cos(angle);
                 final y = orbitRadius * sin(angle);
-                
+
                 return Transform.translate(
                   offset: Offset(x, y),
                   child: Container(
@@ -192,11 +183,11 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
   }
 
-
   Future<void> _launchURL(String url) async {
     final uri = Uri.parse(url);
     try {
-      if (!await url_launcher.launchUrl(uri, mode: url_launcher.LaunchMode.externalApplication)) {
+      if (!await url_launcher.launchUrl(uri,
+          mode: url_launcher.LaunchMode.externalApplication)) {
         throw Exception('Could not launch $url');
       }
     } catch (e) {
@@ -225,9 +216,11 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
           const begin = Offset(1.0, 0.0);
           const end = Offset.zero;
           const curve = Curves.easeInOutCubic;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
-          var fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(animation);
+          var fadeAnimation =
+              Tween<double>(begin: 0.0, end: 1.0).animate(animation);
 
           return SlideTransition(
             position: offsetAnimation,
@@ -247,10 +240,16 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final deviceType = getDeviceType(screenWidth);
-    final contentPadding = screenWidth * (deviceType == DeviceType.mobile ? 0.08 : 
-                                          deviceType == DeviceType.smallTablet ? 0.09 : 
-                                          deviceType == DeviceType.tablet ? 0.1 : 
-                                          deviceType == DeviceType.largeTablet ? 0.12 : 0.15);
+    final contentPadding = screenWidth *
+        (deviceType == DeviceType.mobile
+            ? 0.08
+            : deviceType == DeviceType.smallTablet
+                ? 0.09
+                : deviceType == DeviceType.tablet
+                    ? 0.1
+                    : deviceType == DeviceType.largeTablet
+                        ? 0.12
+                        : 0.15);
 
     return Scaffold(
       backgroundColor: const Color(0xFF0A0A1A),
@@ -274,12 +273,11 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
               padding: EdgeInsets.symmetric(
                 horizontal: contentPadding,
                 vertical: getResponsiveSize(screenWidth, deviceType,
-                  mobile: 30,
-                  smallTablet: 35,
-                  tablet: 40,
-                  largeTablet: 45,
-                  desktop: 50
-                ),
+                    mobile: 30,
+                    smallTablet: 35,
+                    tablet: 40,
+                    largeTablet: 45,
+                    desktop: 50),
               ),
               child: FadeTransition(
                 opacity: _fadeAnimation,
@@ -288,17 +286,47 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
-                        mobile: 60,
-                        smallTablet: 70,
-                        tablet: 80,
-                        largeTablet: 100,
-                        desktop: 150
-                      )),
-                      
-                      if (deviceType == DeviceType.mobile || deviceType == DeviceType.smallTablet || deviceType == DeviceType.tablet) ...[
+                      SizedBox(
+                          height: getResponsiveSize(screenWidth, deviceType,
+                              mobile: 60,
+                              smallTablet: 70,
+                              tablet: 80,
+                              largeTablet: 100,
+                              desktop: 150)),
+
+                      if (deviceType == DeviceType.mobile ||
+                          deviceType == DeviceType.smallTablet ||
+                          deviceType == DeviceType.tablet) ...[
                         Center(
-                          child: _buildOrbitingSkills(150, deviceType, screenWidth),
+                          child: Column(
+                            children: [
+                              _buildOrbitingSkills(
+                                  150, deviceType, screenWidth),
+                              const SizedBox(height: 16),
+                              // Add main skills/tags below the image for mobile/tablet
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                alignment: WrapAlignment.center,
+                                children: [
+                                  'API Integration',
+                                  'State Management',
+                                  'UI/UX',
+                                  'Web Development',
+                                  'Flutter',
+                                  'Firebase',
+                                ]
+                                    .map((tag) => Chip(
+                                          label: Text(tag,
+                                              style: const TextStyle(
+                                                  color: Colors.white)),
+                                          backgroundColor:
+                                              Colors.purple.withOpacity(0.3),
+                                        ))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 50),
                         _buildIntroSection(deviceType, screenWidth),
@@ -309,26 +337,28 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                           children: [
                             Expanded(
                               flex: 3,
-                              child: _buildIntroSection(deviceType, screenWidth),
+                              child:
+                                  _buildIntroSection(deviceType, screenWidth),
                             ),
                             const SizedBox(width: 50),
                             Expanded(
                               flex: 2,
                               child: Center(
-                                child: _buildOrbitingSkills(200, deviceType, screenWidth),
+                                child: _buildOrbitingSkills(
+                                    200, deviceType, screenWidth),
                               ),
                             ),
                           ],
                         ),
-                      
-                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
-                        mobile: 80,
-                        smallTablet: 90,
-                        tablet: 100,
-                        largeTablet: 110,
-                        desktop: 120
-                      )),
-                      
+
+                      SizedBox(
+                          height: getResponsiveSize(screenWidth, deviceType,
+                              mobile: 80,
+                              smallTablet: 90,
+                              tablet: 100,
+                              largeTablet: 110,
+                              desktop: 120)),
+
                       const SizedBox(height: 20),
 
                       // Skills Section
@@ -336,42 +366,50 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                         'My Skills',
                         style: TextStyle(
                           fontSize: getResponsiveSize(screenWidth, deviceType,
-                            mobile: 24,
-                            smallTablet: 26,
-                            tablet: 28,
-                            largeTablet: 32,
-                            desktop: 36
-                          ),
+                              mobile: 24,
+                              smallTablet: 26,
+                              tablet: 28,
+                              largeTablet: 32,
+                              desktop: 36),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ).animate().fadeIn().slideX(),
-                      
+
                       const SizedBox(height: 30),
-                      
+
                       Wrap(
                         spacing: 20,
                         runSpacing: 20,
                         children: [
-                          _buildSkillCard('Dart', Images.dart, deviceType, screenWidth),
-                          _buildSkillCard('Flutter', Images.flutter, deviceType, screenWidth),
-                          _buildSkillCard('Firebase', Images.firebase, deviceType, screenWidth),
-                          _buildSkillCard('Github', Images.github, deviceType, screenWidth),
-                          _buildSkillCard('HTML', Images.html, deviceType, screenWidth),
-                          _buildSkillCard('CSS', Images.css, deviceType, screenWidth),
-                          _buildSkillCard('JavaScript', Images.js, deviceType, screenWidth),
-                          _buildSkillCard('Git', Images.github, deviceType, screenWidth),
-                          _buildSkillCard('C/C++', Images.c, deviceType, screenWidth)
+                          _buildSkillCard(
+                              'Dart', Images.dart, deviceType, screenWidth),
+                          _buildSkillCard('Flutter', Images.flutter, deviceType,
+                              screenWidth),
+                          _buildSkillCard('Firebase', Images.firebase,
+                              deviceType, screenWidth),
+                          _buildSkillCard(
+                              'Github', Images.github, deviceType, screenWidth),
+                          _buildSkillCard(
+                              'HTML', Images.html, deviceType, screenWidth),
+                          _buildSkillCard(
+                              'CSS', Images.css, deviceType, screenWidth),
+                          _buildSkillCard(
+                              'JavaScript', Images.js, deviceType, screenWidth),
+                          _buildSkillCard(
+                              'Git', Images.github, deviceType, screenWidth),
+                          _buildSkillCard(
+                              'C/C++', Images.c, deviceType, screenWidth)
                         ],
                       ),
-                      
-                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
-                        mobile: 80,
-                        smallTablet: 90,
-                        tablet: 100,
-                        largeTablet: 110,
-                        desktop: 120
-                      )),
+
+                      SizedBox(
+                          height: getResponsiveSize(screenWidth, deviceType,
+                              mobile: 80,
+                              smallTablet: 90,
+                              tablet: 100,
+                              largeTablet: 110,
+                              desktop: 120)),
 
                       const SizedBox(height: 20),
                       // Projects Section
@@ -379,46 +417,45 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                         'Featured Projects',
                         style: TextStyle(
                           fontSize: getResponsiveSize(screenWidth, deviceType,
-                            mobile: 24,
-                            smallTablet: 26,
-                            tablet: 28,
-                            largeTablet: 32,
-                            desktop: 36
-                          ),
+                              mobile: 24,
+                              smallTablet: 26,
+                              tablet: 28,
+                              largeTablet: 32,
+                              desktop: 36),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ).animate().fadeIn().slideX(),
-                      
+
                       const SizedBox(height: 50),
-                      
+
                       // Projects Grid
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: getGridCrossAxisCount(deviceType),
-                          crossAxisSpacing: getResponsiveSize(screenWidth, deviceType,
-                            mobile: 16,
-                            smallTablet: 20,
-                            tablet: 24,
-                            largeTablet: 30,
-                            desktop: 40
-                          ),
-                          mainAxisSpacing: getResponsiveSize(screenWidth, deviceType,
-                            mobile: 16,
-                            smallTablet: 20,
-                            tablet: 24,
-                            largeTablet: 30,
-                            desktop: 40
-                          ),
-                          childAspectRatio: getResponsiveSize(screenWidth, deviceType,
-                            mobile: 1.0,
-                            smallTablet: 1.05,
-                            tablet: 1.1,
-                            largeTablet: 1.15,
-                            desktop: 1.2
-                          ),
+                          crossAxisSpacing: getResponsiveSize(
+                              screenWidth, deviceType,
+                              mobile: 16,
+                              smallTablet: 20,
+                              tablet: 24,
+                              largeTablet: 30,
+                              desktop: 40),
+                          mainAxisSpacing: getResponsiveSize(
+                              screenWidth, deviceType,
+                              mobile: 16,
+                              smallTablet: 20,
+                              tablet: 24,
+                              largeTablet: 30,
+                              desktop: 40),
+                          childAspectRatio: getResponsiveSize(
+                              screenWidth, deviceType,
+                              mobile: 1.0,
+                              smallTablet: 1.05,
+                              tablet: 1.1,
+                              largeTablet: 1.15,
+                              desktop: 1.2),
                         ),
                         itemCount: 3,
                         itemBuilder: (context, index) {
@@ -426,24 +463,41 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             {
                               'title': 'Project 1',
                               'subtitle': 'Simple Tools',
-                              'description': 'A simple tools app built with Flutter and Api integration.',
+                              'description':
+                                  'A simple tools app built with Flutter and Api integration.',
                               'image': 'assets/2.jpg',
-                              'technologies': <String>['Flutter', 'Api Integration', 'State Management', 'UI/UX'],
+                              'technologies': <String>[
+                                'Flutter',
+                                'Api Integration',
+                                'State Management',
+                                'UI/UX'
+                              ],
                             },
-                           
                             {
                               'title': 'Project 2',
                               'subtitle': 'Money Tracker',
-                              'description': 'A money tracker app built with Flutter with laravel backend.',
+                              'description':
+                                  'A money tracker app built with Flutter with laravel backend.',
                               'image': 'assets/1.jpg',
-                              'technologies': <String>['Flutter', 'Rest Api', 'Laravel', 'Authentication'],
+                              'technologies': <String>[
+                                'Flutter',
+                                'Rest Api',
+                                'Laravel',
+                                'Authentication'
+                              ],
                             },
                             {
                               'title': 'Project 3',
                               'subtitle': 'Portfolio Website',
-                              'description': 'A portfolio website built with Flutter.',
+                              'description':
+                                  'A portfolio website built with Flutter.',
                               'image': 'assets/Portfoilio Website.png',
-                              'technologies': <String>['Flutter', 'State Management', 'UI/UX', 'Web Development'],
+                              'technologies': <String>[
+                                'Flutter',
+                                'State Management',
+                                'UI/UX',
+                                'Web Development'
+                              ],
                             },
                           ];
 
@@ -471,20 +525,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                           );
                         },
                       ),
-                      SizedBox(height: getResponsiveSize(screenWidth, deviceType,
-                        mobile: 80,
-                        smallTablet: 90,
-                        tablet: 100,
-                        largeTablet: 110,
-                        desktop: 120
-                      )),
-                      
+                      SizedBox(
+                          height: getResponsiveSize(screenWidth, deviceType,
+                              mobile: 80,
+                              smallTablet: 90,
+                              tablet: 100,
+                              largeTablet: 110,
+                              desktop: 120)),
+
                       // Footer
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 40),
                         decoration: BoxDecoration(
                           border: Border(
-                            top: BorderSide(color: Colors.purple.withOpacity(0.3), width: 1),
+                            top: BorderSide(
+                                color: Colors.purple.withOpacity(0.3),
+                                width: 1),
                           ),
                         ),
                         child: Column(
@@ -492,34 +548,41 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                             Text(
                               'Get in Touch',
                               style: TextStyle(
-                                fontSize: getResponsiveSize(screenWidth, deviceType,
-                                  mobile: 24,
-                                  smallTablet: 26,
-                                  tablet: 28,
-                                  largeTablet: 30,
-                                  desktop: 32
-                                ),
+                                fontSize: getResponsiveSize(
+                                    screenWidth, deviceType,
+                                    mobile: 24,
+                                    smallTablet: 26,
+                                    tablet: 28,
+                                    largeTablet: 30,
+                                    desktop: 32),
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
                             ),
                             const SizedBox(height: 20),
                             SizedBox(
-                              width: deviceType == DeviceType.mobile ? double.infinity : 
-                                     screenWidth * (deviceType == DeviceType.smallTablet ? 0.8 : 
-                                                    deviceType == DeviceType.tablet ? 0.7 : 
-                                                    deviceType == DeviceType.largeTablet ? 0.65 : 0.6),
+                              width: deviceType == DeviceType.mobile
+                                  ? double.infinity
+                                  : screenWidth *
+                                      (deviceType == DeviceType.smallTablet
+                                          ? 0.8
+                                          : deviceType == DeviceType.tablet
+                                              ? 0.7
+                                              : deviceType ==
+                                                      DeviceType.largeTablet
+                                                  ? 0.65
+                                                  : 0.6),
                               child: Text(
                                 'Im always open to discussing product design work or partnership opportunities.',
                                 style: TextStyle(
                                   color: Colors.grey[400],
-                                  fontSize: getResponsiveSize(screenWidth, deviceType,
-                                    mobile: 14,
-                                    smallTablet: 15,
-                                    tablet: 16,
-                                    largeTablet: 17,
-                                    desktop: 18
-                                  ),
+                                  fontSize: getResponsiveSize(
+                                      screenWidth, deviceType,
+                                      mobile: 14,
+                                      smallTablet: 15,
+                                      tablet: 16,
+                                      largeTablet: 17,
+                                      desktop: 18),
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -530,19 +593,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.email),
-                                  onPressed: () => _launchURL('mailto:aqeelahmad.dev@gmail.com'),
+                                  onPressed: () => _launchURL(
+                                      'mailto:aqeelahmad.dev@gmail.com'),
                                   color: Colors.white,
                                   tooltip: 'Email',
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.message),
-                                  onPressed: () => _launchURL('https://www.linkedin.com/in/aqeel-ahmad-534530311'),
+                                  onPressed: () => _launchURL(
+                                      'https://www.linkedin.com/in/aqeel-ahmad-534530311'),
                                   color: Colors.white,
                                   tooltip: 'LinkedIn',
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.code),
-                                  onPressed: () => _launchURL('https://github.com/aqeel-102'),
+                                  onPressed: () => _launchURL(
+                                      'https://github.com/aqeel-102'),
                                   color: Colors.white,
                                   tooltip: 'GitHub',
                                 ),
@@ -553,19 +619,18 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                               '© 2023 Aqeel Ahmad. All rights reserved.',
                               style: TextStyle(
                                 color: Colors.grey[600],
-                                fontSize: getResponsiveSize(screenWidth, deviceType,
-                                  mobile: 12,
-                                  smallTablet: 13,
-                                  tablet: 14,
-                                  largeTablet: 15,
-                                  desktop: 16
-                                ),
+                                fontSize: getResponsiveSize(
+                                    screenWidth, deviceType,
+                                    mobile: 12,
+                                    smallTablet: 13,
+                                    tablet: 14,
+                                    largeTablet: 15,
+                                    desktop: 16),
                               ),
                             ),
                           ],
                         ),
                       ).animate().fadeIn().scale(),
-                      
                     ],
                   ),
                 ),
@@ -577,30 +642,20 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
     );
   }
 
-  Widget _buildSkillCard(String skill, String imagePath, DeviceType deviceType, double screenWidth) {
+  Widget _buildSkillCard(String skill, String imagePath, DeviceType deviceType,
+      double screenWidth) {
     double cardSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 80,
-      smallTablet: 90,
-      tablet: 100,
-      largeTablet: 120,
-      desktop: 140
-    );
+        mobile: 80,
+        smallTablet: 90,
+        tablet: 100,
+        largeTablet: 120,
+        desktop: 140);
 
     double imageSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 18,
-      smallTablet: 22,
-      tablet: 26,
-      largeTablet: 30,
-      desktop: 35
-    );
+        mobile: 18, smallTablet: 22, tablet: 26, largeTablet: 30, desktop: 35);
 
     double fontSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 12,
-      smallTablet: 14,
-      tablet: 16,
-      largeTablet: 18,
-      desktop: 20
-    );
+        mobile: 12, smallTablet: 14, tablet: 16, largeTablet: 18, desktop: 20);
 
     return Container(
       width: cardSize,
@@ -636,51 +691,41 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
           ),
         ],
       ),
-    ).animate()
-      .fadeIn(duration: const Duration(milliseconds: 600))
-      .scale(delay: const Duration(milliseconds: 200))
-      .shimmer(duration: const Duration(seconds: 1), curve: Curves.easeInOut)
-      .then()
-      .shake(hz: 2, curve: Curves.easeInOut)
-      .then()
-      .elevation(
-        begin: 0,
-        end: 8,
-        curve: Curves.easeInOut,
-        duration: const Duration(seconds: 1),
-      );
+    )
+        .animate()
+        .fadeIn(duration: const Duration(milliseconds: 600))
+        .scale(delay: const Duration(milliseconds: 200))
+        .shimmer(duration: const Duration(seconds: 1), curve: Curves.easeInOut)
+        .then()
+        .shake(hz: 2, curve: Curves.easeInOut)
+        .then()
+        .elevation(
+          begin: 0,
+          end: 8,
+          curve: Curves.easeInOut,
+          duration: const Duration(seconds: 1),
+        );
   }
 
-  Widget buildProjectCard(BuildContext context, String title, String subtitle, String description, String imagePath, List<String> technologies, int index, DeviceType deviceType, double screenWidth) {
+  Widget buildProjectCard(
+      BuildContext context,
+      String title,
+      String subtitle,
+      String description,
+      String imagePath,
+      List<String> technologies,
+      int index,
+      DeviceType deviceType,
+      double screenWidth) {
     double titleSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 12,
-      smallTablet: 9,
-      tablet: 10,
-      largeTablet: 11,
-      desktop: 23
-    );
+        mobile: 12, smallTablet: 9, tablet: 10, largeTablet: 11, desktop: 23);
     double subtitleSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 16,
-      smallTablet: 10,
-      tablet: 11,
-      largeTablet: 13,
-      desktop: 26
-    );
+        mobile: 16, smallTablet: 10, tablet: 11, largeTablet: 13, desktop: 26);
     double descriptionSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 12,
-      smallTablet: 8,
-      tablet: 9,
-      largeTablet: 11,
-      desktop: 20
-    );
-    
+        mobile: 12, smallTablet: 8, tablet: 9, largeTablet: 11, desktop: 20);
+
     double cardPadding = getResponsiveSize(screenWidth, deviceType,
-      mobile: 12,
-      smallTablet: 14,
-      tablet: 16,
-      largeTablet: 18,
-      desktop: 20
-    );
+        mobile: 12, smallTablet: 14, tablet: 16, largeTablet: 18, desktop: 20);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -710,7 +755,6 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                   fit: BoxFit.cover,
                 ),
               ),
-              
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(cardPadding),
@@ -748,27 +792,29 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
                       Wrap(
                         spacing: 6,
                         runSpacing: 6,
-                        children: technologies.map((tech) => Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: cardPadding * 0.4,
-                            vertical: cardPadding * 0.2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.purple.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.purple.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Text(
-                            tech,
-                            style: TextStyle(
-                              color: Colors.purple[100],
-                              fontSize: descriptionSize * 0.9,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        )).toList(),
+                        children: technologies
+                            .map((tech) => Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: cardPadding * 0.4,
+                                    vertical: cardPadding * 0.2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.purple.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.purple.withOpacity(0.3),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    tech,
+                                    style: TextStyle(
+                                      color: Colors.purple[100],
+                                      fontSize: descriptionSize * 0.9,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
                       ),
                     ],
                   ),
@@ -783,33 +829,13 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> with TickerProvid
 
   Widget _buildIntroSection(DeviceType deviceType, double screenWidth) {
     double welcomeSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 16,
-      smallTablet: 18,
-      tablet: 20,
-      largeTablet: 22,
-      desktop: 24
-    );
+        mobile: 16, smallTablet: 18, tablet: 20, largeTablet: 22, desktop: 24);
     double nameSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 28,
-      smallTablet: 32,
-      tablet: 36,
-      largeTablet: 42,
-      desktop: 48
-    );
+        mobile: 28, smallTablet: 32, tablet: 36, largeTablet: 42, desktop: 48);
     double roleSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 20,
-      smallTablet: 23,
-      tablet: 26,
-      largeTablet: 29,
-      desktop: 32
-    );
+        mobile: 20, smallTablet: 23, tablet: 26, largeTablet: 29, desktop: 32);
     double descriptionSize = getResponsiveSize(screenWidth, deviceType,
-      mobile: 14,
-      smallTablet: 15,
-      tablet: 16,
-      largeTablet: 18,
-      desktop: 20
-    );
+        mobile: 14, smallTablet: 15, tablet: 16, largeTablet: 18, desktop: 20);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -892,7 +918,9 @@ DeviceType getDeviceType(double screenWidth) {
   return DeviceType.desktop;
 }
 
-double getResponsiveSize(double screenWidth, DeviceType deviceType, {
+double getResponsiveSize(
+  double screenWidth,
+  DeviceType deviceType, {
   required double mobile,
   required double smallTablet,
   required double tablet,
